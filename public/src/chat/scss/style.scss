@@ -1,0 +1,53 @@
+$primary: #151b35;
+$secondary: #C0480C;
+$subtle_highlight: #C9C9C9;
+$background_color: #E8E3DC;
+$main_button: #F05F16;
+$light_surface_text: #402A1A;
+$dark_surface_text: #F3F3F3;
+
+
+.mention {
+    background-color: #C0480C; /* Use your secondary color for highlight */
+    color: #E8E3DC; /* A light color for text, assuming it's your light surface text color */
+    padding: 0 4px;
+    border-radius: 4px;
+    font-weight: bold;
+}
+
+#userList {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    border: 1px solid #ccc;
+    z-index: 1;
+}
+#userList div {
+    padding: 10px;
+    cursor: pointer;
+}
+#userList div:hover {
+    background-color: #f1f1f1;
+}
+
+
+/* For Webkit browsers */
+::-webkit-scrollbar {
+    width: 12px; /* Same width for track and thumb */
+}
+
+::-webkit-scrollbar-track {
+    background: $secondary; /* Assuming primary color as the track background */
+    border-radius: 6px; /* Match the roundness of the thumb */
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: $subtle_highlight; /* This is the secondary color you specified */
+    border-radius: 6px; /* Match the roundness of the track */
+}
+
+/* For Firefox */
+* {
+    scrollbar-width: 12px; /* Width of the scrollbar */
+    scrollbar-color: $subtle_highlight $secondary; /* Thumb color and track color */
+}
