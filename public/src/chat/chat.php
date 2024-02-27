@@ -41,7 +41,7 @@
               xl: '1200px'
             },
             borderRadius: {
-              'message_button': '10px'
+                message_button: "10px" 
             },
             width: {
               '380': '380px'
@@ -81,42 +81,43 @@
             </div>
 
             <!-- Messages area -->
-            <div class="flex-1 overflow-y-auto p-4 space-y-4" style="max-height: calc(100vh - 4rem);">
+            <div id="messagesArea" class="flex-1 overflow-y-auto p-4 space-y-4" style="max-height: calc(100vh - 4rem);">
                 <!-- Message -->
                 <div class="flex items-start space-x-2">
                     <img src="../assets/img/ugo_pfp.png" alt="Avatar" class="h-10 w-10 rounded-full mb-4">
-                    <div>
-                        <div class="text-dark_surface_text font-bold">Ugo Bretteil</div>
-                        <p class="message bg-subtle_highlight text-light_surface_text rounded-message_button break-all p-2 max-w-96">Hey <span class="mention">@Lazaro</span>! aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa aaaaaaaa</p>
-                        <p class="text-subtle_highlight">11/11/1001 - 12:00</p>
+                    <div class="text-left">
+                        <div class="text-light_surface_text font-medium">Ugo Bretteil</div>
+                        <p class="bg-subtle_highlight text-light_surface_text text-lg font-medium rounded-message_button break-all p-2 max-w-md">Hey <span class="mention">@Lazaro</span>! aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa aaaaaaaa</p>
+                        <p class="text-light_surface_text font-normal text-xs">11/11/1001 - 12:00am</p>
                     </div>
                 </div>
-                <!-- Add more messages -->
+                <!-- Response -->
                 <div class="flex items-end space-x-2 justify-end">
-                    <div>
-                        <div class="text-dark_surface_text font-bold">Lazaro</div>
-                        <p class="message bg-subtle_highlight text-light_surface_text rounded-message_button break-all p-2 max-w-96">Hey <span class="mention">@Ugo</span>!</p>
-                        <p class="text-subtle_highlight">11/11/1001 - 12:00</p>
+                <div class="text-left">
+                        <div class="text-light_surface_text font-medium">Lazaro</div>
+                        <p class="bg-subtle_highlight text-light_surface_text text-lg font-medium rounded-message_button break-all p-2 max-w-md">Hey <span class="mention">@Ugo</span>!</p>
+                        <p class="text-light_surface_text font-normal text-xs">11/11/1001 - 12:00am</p>
                     </div>
                     <img src="../assets/img/lazaro_pfp.gif" alt="Avatar" class="h-10 w-10 rounded-full mb-4">
                 </div>
+                <!-- Add more messages -->
             </div>
 
             <!-- Message input -->
             <div class="border-t border-subtle_highlight p-4 flex items-center">
-                <input type="text" placeholder="Write a message..." id="messageInput" class="flex-1 p-2 rounded border border-subtle_highlight mr-2">
-                <div id="userList"></div>
+                <textarea id="messageInput" placeholder="Message..." maxlength="2000" 
+                    class="flex-1 p-2 rounded border border-subtle_highlight mr-2 resize-none overflow-hidden 
+                    focus:outline-none focus:ring focus:border-blue-300 transition-all duration-300 ease-in-out"></textarea>
+                <div id="userList" class="absolute z-10 w-full bg-white border rounded shadow-lg hidden"></div>
                 <button id="sendButton" class="bg-main_button text-light_surface_text px-4 py-2 rounded">Send</button>
             </div>
         </div>
 
         <!-- Right sidebar -->
         <div class="w-1/5 bg-primary text-dark_surface_text p-4 space-y-4">
-            <div class="text-white text-lg font-bold mb-4">Intervenants</div>
-            <div class="space-y-2">
-                <!-- Right sidebar items -->
-                <div class="text-light_surface_text p-2">User</div>
-                <!-- Add more items -->
+            <div class="text-secondary text-lg font-bold mb-4">Intervenants</div>
+            <div class="right-sidebar space-y-2">
+                <!-- Users would go here but are imported via class / db -->
             </div>
         </div>
     </div>

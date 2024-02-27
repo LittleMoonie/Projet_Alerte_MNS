@@ -30,6 +30,12 @@ $dark_surface_text: #F3F3F3;
     background-color: #f1f1f1;
 }
 
+#messageInput {
+    min-height: 50px; /* Minimum height of the input box */
+    line-height: 20px; /* Line height for the input text */
+    height: auto; /* Start with auto height */
+    resize: none; /* Prevent the user from resizing the textarea */
+  }  
 
 /* For Webkit browsers */
 ::-webkit-scrollbar {
