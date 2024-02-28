@@ -11,7 +11,7 @@ if($_POST['id'] != 0) {
     $stmt->bindParam(':id',$_POST['id']);
 }
 else {
-    $sql = 'INSERT INTO group (group_name) VALUES (:name)';
+    $sql = 'INSERT INTO user_group (group_name) VALUES (:name)';
     $stmt= $db->prepare($sql);
 }
 

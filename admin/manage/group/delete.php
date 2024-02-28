@@ -1,7 +1,7 @@
 <?php require_once $_SERVER["DOCUMENT_ROOT"]."/admin/include/connect.php";
 
 if(isset($_GET['id']) && $_GET['id'] > 0) {
-    $sql = "DELETE FROM group WHERE group_id=:id";
+    $sql = "DELETE FROM user_group WHERE group_id=:id";
     $stmt= $db->prepare($sql);
     $stmt->execute(['id'=>$_GET['id']]);
 }

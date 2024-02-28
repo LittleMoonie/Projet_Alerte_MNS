@@ -1,6 +1,6 @@
 <?php
 session_start();
-require_once $_SERVER['DOCUMENT_ROOT']."/public/src/chat/connection/connect.php";
+require_once $_SERVER['DOCUMENT_ROOT']."/admin/include/connect.php";
 
 // Check if the user is already logged in
 if (isset($_SESSION['mySession']) && $_SESSION['mySession'] == "042") {
@@ -15,9 +15,9 @@ if (isset($_POST['mail']) && isset($_POST['password'])) {
     $userMail = $_POST['mail'];
     $userPwd = $_POST['password'];
 
-    $sql = "SELECT * FROM users 
+    $sql = "SELECT * FROM users /*
         INNER JOIN userXgroup ON users.user_id = userXgroup.user_id 
-        INNER JOIN user_group ON userXgroup.group_id = user_group.group_id 
+        INNER JOIN user_group ON userXgroup.group_id = user_group.group_id */
         WHERE user_mail = :mail";
     
     $stmt = $db->prepare($sql);

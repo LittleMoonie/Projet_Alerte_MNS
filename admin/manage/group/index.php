@@ -28,13 +28,15 @@ $recordset = $stmt->fetchAll();
                 <th scope="col">Supprimer</th>
                 <th scope="col">Modifier</th>
                 <th scope="col">Ajouter Utilisateur</th>
+                <th scope="col">Supprimer Utilisateur</th>
             </tr>
             <?php foreach ($recordset as $row) {?>
                 <tr>
                     <td><?= $row["group_name"];?></td>
                     <td><a style="text-decoration: none;" href="delete.php?id=<?= $row["group_id"];?>" title="Supprimer le groupe">🗑</a></td>
                     <td><a style="text-decoration: none;" href="form.php?id=<?= $row["group_id"];?>" title="Modifier le groupe">📝</a></td>
-                    <td><a style="text-decoration: none;" href="../userXgroup/index.php?id=<?= $row["group_id"];?>" title="Ajouter au groupe">➕</a></td>
+                    <td><a style="text-decoration: none;" href="../userXgroup/add-index.php?id=<?= $row["group_id"];?>" title="Ajouter au groupe">➕</a></td>
+                    <td><a style="text-decoration: none;" href="../userXgroup/delete-index.php?id=<?= $row["group_id"];?>" title="Supprimer du groupe">➖</a></td>
                 </tr>
             <?php }?>
         </table>

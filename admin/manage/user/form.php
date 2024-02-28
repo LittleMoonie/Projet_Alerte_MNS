@@ -30,7 +30,7 @@ if(isset($_GET['id']) && $_GET['id'] > 0) {
         <input type="hidden" name="id" value="<?=$userId?>"/>
         Nom<br/>
         <input type="text" name="lastName" value="<?=$userLastname?>"/>
-        Prénom<br/>
+        <br/>Prénom<br/>
         <input type="text" name="firstName" value="<?=$userFirstname?>"/>
         <br/>Mail<br/>
         <input type="text" name="mail" value="<?=$userMail?>"/>

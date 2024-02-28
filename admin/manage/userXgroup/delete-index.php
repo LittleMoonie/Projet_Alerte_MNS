@@ -5,8 +5,15 @@ $userFirstname = "";
 $userId = 0;
 
 if(isset($_GET['id']) && $_GET['id'] > 0) {
-    $sql = "SELECT * FROM users";
+    // $sql = "SELECT * FROM users LEFT JOIN userXgroup ON user_id = uxg_user_id WHERE (SELECT * FROM userxgroup WHERE uxg_group_id != :id) IS NULL GROUP BY user_id";
+    // $sql = "SELECT * FROM users RIGHT JOIN userxgroup ON user_id = uxg_user_id WHERE user_id NOT IN  AND uxg_group_id != :id";
+    // $sql = "SELECT * FROM users WHERE user_id NOT IN (SELECT uxg_user_id FROM userxgroup INNER JOIN user_group ON group_id = uxg_group_id WHERE uxg_group_id IS NOT NULL OR group_id=:id)";
+    // $sql = "SELECT * FROM users LEFT JOIN userxgroup ON user_id = uxg_user_id LEFT JOIN user_group ON uxg_group_id = group_id WHERE uxg_group_id IS NULL OR group_id != :id";
+    $sql = "SELECT * FROM users INNER JOIN userxgroup WHERE uxg_user_id=:user_id AND uxg_group_id=:group_id";
     $stmt = $db->prepare($sql);
+
+    // $stmt->bindParam(':id',$_GET['id']);
+
     $stmt->execute();
 
     $recordset = $stmt->fetchAll();
@@ -28,13 +35,15 @@ if(isset($_GET['id']) && $_GET['id'] > 0) {
         <tr>
             <th scope="col">Nom</th>
             <th scope="col">Prénom</th>
-            <th scope="col">Ajouter Utilisateur</th>
+            <!-- <th scope="col">Id du groupe</th> -->
+            <th scope="col">Supprimer Utilisateur</th>
         </tr>
         <?php foreach ($recordset as $row) {?>
             <tr>
                 <td><?= $row["user_lastname"];?></td>
                 <td><?= $row["user_firstname"];?></td>
-                <td><a style="text-decoration: none;" href="add-process.php" title="Ajouter au groupe">➕</a></td>
+                <!-- <td><?= $row["uxg_group_id"];?></td> -->
+                <td><a style="text-decoration: none;" href="delete-process.php?group_id=<?= $_GET["id"];?>&user_id=<?= $row['user_id']?>" title="Supprimer du groupe">➖</a></td>
             </tr>
         <?php }?>
     </table>
