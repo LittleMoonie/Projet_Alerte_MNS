@@ -6,7 +6,7 @@ $userMail = "";
 $userId = 0;
 
 if(isset($_GET['id']) && $_GET['id'] > 0) {
-    $sql = "SELECT * FROM table_user WHERE user_id=:id";
+    $sql = "SELECT * FROM users WHERE user_id=:id";
     $stmt = $db->prepare($sql);
     $stmt->execute([":id"=>$_GET['id']]);
 
@@ -31,7 +31,7 @@ if(isset($_GET['id']) && $_GET['id'] > 0) {
         Nom<br/>
         <input type="text" name="lastName" value="<?=$userLastname?>"/>
         Prénom<br/>
-        <input type="text" name="firstName" value="<?=$userFirstnamee?>"/>
+        <input type="text" name="firstName" value="<?=$userFirstname?>"/>
         <br/>Mail<br/>
         <input type="text" name="mail" value="<?=$userMail?>"/>
         <br/>

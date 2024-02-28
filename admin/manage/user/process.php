@@ -15,12 +15,12 @@ if(isset($_POST['mail']))
     $userMail = $_POST['mail'];
 
 if($_POST['id'] != 0) {
-    $sql = 'UPDATE table_user SET user_lastname=:lastname, user_firstname=:firstname, user_mail=:mail WHERE user_id=:id';
+    $sql = 'UPDATE users SET user_lastname=:lastname, user_firstname=:firstname, user_mail=:mail WHERE user_id=:id';
     $stmt= $db->prepare($sql);
     $stmt->bindParam(':id',$_POST['id']);
 }
 else {
-    $sql = 'INSERT INTO table_user (user_lastname, user_firstname, user_phone, user_mail) VALUES (:lastname, :firstname, :mail)';
+    $sql = 'INSERT INTO users (user_lastname, user_firstname, user_phone, user_mail) VALUES (:lastname, :firstname, :mail)';
     $stmt= $db->prepare($sql);
 }
 

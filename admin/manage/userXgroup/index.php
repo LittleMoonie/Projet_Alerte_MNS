@@ -5,7 +5,7 @@ $userFirstname = "";
 $userId = 0;
 
 if(isset($_GET['id']) && $_GET['id'] > 0) {
-    $sql = "SELECT * FROM table_user";
+    $sql = "SELECT * FROM users";
     $stmt = $db->prepare($sql);
     $stmt->execute();
 

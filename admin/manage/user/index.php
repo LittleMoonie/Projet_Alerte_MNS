@@ -1,6 +1,6 @@
 <?php include $_SERVER["DOCUMENT_ROOT"]."/admin/include/connect.php";
 
-$sql = "SELECT * FROM table_user ORDER BY user_lastname ASC, user_firstname ASC";
+$sql = "SELECT * FROM users ORDER BY user_lastname ASC, user_firstname ASC";
 $stmt = $db->prepare($sql);
 $stmt->execute();
 $recordset = $stmt->fetchAll();
