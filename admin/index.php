@@ -11,5 +11,6 @@
     <h1>Administartion alerte MNS</h1>
     <a class="btn btn-primary active m-1" href="./manage/user/index.php">User Management</a>
     <a class="btn btn-primary active m-1" href="./manage/group/index.php">Group Management</a>
+    <a class="btn btn-primary active m-1" href="./manage/category/index.php">Category Management</a>
 </body>
 </html>
