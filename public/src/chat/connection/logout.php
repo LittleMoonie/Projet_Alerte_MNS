@@ -2,5 +2,5 @@
 $_SESSION['mySession'] = "";
 $_SESSION['user_mail'] = "";
 session_destroy();
-header("Location: public/src/chat/connection/login.php");
+header("Location: login.php");
 ?>

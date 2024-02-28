@@ -10,8 +10,7 @@ if(isset($_GET['id']) && $_GET['id'] > 0) {
     // $sql = "SELECT * FROM users WHERE user_id NOT IN (SELECT uxg_user_id FROM userxgroup INNER JOIN user_group ON group_id = uxg_group_id WHERE uxg_group_id IS NOT NULL OR group_id=:id)";
     // $sql = "SELECT * FROM users LEFT JOIN userxgroup ON user_id = uxg_user_id LEFT JOIN user_group ON uxg_group_id = group_id WHERE uxg_group_id IS NULL OR group_id != :id";
     // $sql = "SELECT * FROM users INNER JOIN userxgroup WHERE uxg_group_id != :id GROUP BY user_id";
-    // $sql = "SELECT * FROM users";
-    $sql = "SELECT * FROM users LEFT JOIN EXCLUDING INNER JOIN uxerxgroup ON user_id = uxg_user_id ";
+    $sql = "SELECT * FROM users";
     $stmt = $db->prepare($sql);
 
     // $stmt->bindParam(':id',$_GET['id']);

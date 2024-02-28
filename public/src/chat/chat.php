@@ -74,7 +74,7 @@ require_once $_SERVER["DOCUMENT_ROOT"]."/public/src/chat/connection/connect.php"
                             FROM category, channel, groupXcategory
                             WHERE category.category_id = groupXcategory.gxc_category_id
                             AND channel.category_id = groupXcategory.gxc_category_id
-                            AND group_id = (SELECT group_id FROM userXgroup WHERE user_id = (SELECT user_id FROM users WHERE user_mail = :userEmail))";
+                            AND group_id = (SELECT group_id FROM userXgroup WHERE uxg_user_id = (SELECT user_id FROM users WHERE user_mail = :userEmail))";
 
                     $stmt = $db->prepare($sql);
                     $stmt->execute([":userEmail" => $_SESSION['user_mail']]);
