@@ -6,12 +6,12 @@ if(isset($_POST['name']))
     $groupName = $_POST['name'];
 
 if($_POST['id'] != 0) {
-    $sql = 'UPDATE table_group SET group_name=:name WHERE group_id=:id';
+    $sql = 'UPDATE group SET group_name=:name WHERE group_id=:id';
     $stmt= $db->prepare($sql);
     $stmt->bindParam(':id',$_POST['id']);
 }
 else {
-    $sql = 'INSERT INTO table_group (group_name) VALUES (:name)';
+    $sql = 'INSERT INTO group (group_name) VALUES (:name)';
     $stmt= $db->prepare($sql);
 }
 

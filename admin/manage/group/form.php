@@ -4,7 +4,7 @@ $groupName = "";
 $groupId = 0;
 
 if(isset($_GET['id']) && $_GET['id'] > 0) {
-    $sql = "SELECT * FROM table_user_group WHERE group_id=:id";
+    $sql = "SELECT * FROM user_group WHERE group_id=:id";
     $stmt = $db->prepare($sql);
     $stmt->execute([":id"=>$_GET['id']]);
 
