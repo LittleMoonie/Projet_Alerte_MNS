@@ -14,6 +14,11 @@ const users = [
 const input = document.getElementById('messageInput');
 const userList = document.getElementById('userList');
 
+var conn = new WebSocket('ws://localhost:8080');
+conn.onopen = function(e){
+    console.log("Connection Established with WebSocket")
+}
+
 input.addEventListener('input', (e) => {
     const cursorPosition = input.selectionStart; // Get current cursor position
     const textBeforeCursor = input.value.substring(0, cursorPosition); // Get the text before the cursor
@@ -91,6 +96,9 @@ function sendMessage(text, isCurrentUser) {
     messageDiv.appendChild(messageContentDiv);
     
     messagesArea.appendChild(messageDiv);
+
+    conn.send(text); // Send the message text instead of the DOM element.
+    console.log("Message Sent to Connection \n" + text);
     messagesArea.scrollTop = messagesArea.scrollHeight; // Scroll to the bottom to show the new message
 }
 
