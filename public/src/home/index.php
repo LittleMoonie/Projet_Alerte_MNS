@@ -74,7 +74,7 @@
             <div class="max-w-6xl mx-auto">
                 <h2 class="text-5xl font-bold font-titles text-dark_surface_text uppercase mb-6">Metz Numeric School</h2>
                 <p class="text-2xl font-titles text-secondary uppercase mb-6">Connectez, Communiquez, Collaborez Ensemble vers la Réussite</p>
-                <button class="bg-main_button text-dark_surface_text w-380 h-80 rounded-header_button font-bold text-3xl p-2 mb-10 mt-80">Ouvrir</button>
+                <a  href="../chat/chat.php" class="bg-main_button text-dark_surface_text w-380 h-80 rounded-header_button font-bold text-3xl p-2 mb-10 mt-80">Ouvrir</a>
                 <p class="text-5xl font-logo font-bold text-secondary mb-4">MNS Alerte</p>
                 <p class="text-5xl font-paragraphs text-dark_surface_text">Votre Allié Éducatif!</p>
             </div>
