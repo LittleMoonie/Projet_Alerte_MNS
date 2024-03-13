@@ -20,7 +20,7 @@ if($_POST['id'] != 0) {
     $stmt->bindParam(':id',$_POST['id']);
 }
 else {
-    $sql = 'INSERT INTO users (user_lastname, user_firstname, user_phone, user_mail) VALUES (:lastname, :firstname, :mail)';
+    $sql = 'INSERT INTO users (user_lastname, user_firstname, user_mail) VALUES (:lastname, :firstname, :mail)';
     $stmt= $db->prepare($sql);
 }
 
