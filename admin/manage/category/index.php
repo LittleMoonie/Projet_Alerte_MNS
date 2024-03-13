@@ -1,6 +1,6 @@
 <?php include $_SERVER["DOCUMENT_ROOT"]."/admin/include/connect.php";
 
-$sql = "SELECT * FROM user_group ORDER BY group_name ASC";
+$sql = "SELECT * FROM category ORDER BY category_name ASC";
 $stmt = $db->prepare($sql);
 $stmt->execute();
 $recordset = $stmt->fetchAll();
@@ -20,23 +20,23 @@ $recordset = $stmt->fetchAll();
     <main class="container">
         <a class="btn text-success" href="./form.php">Ajouter</a>
         <a class="btn" href="../../index.php">Retour Accueil Admin</a>
-        <h1>Liste des groupes</h1>
+        <h1>Liste des catégories</h1>
         <table class="table table-striped">
             <caption>Liste des groupes</caption>
             <tr>
                 <th scope="col">Nom</th>
                 <th scope="col">Supprimer</th>
                 <th scope="col">Modifier</th>
-                <th scope="col">Ajouter Utilisateur</th>
-                <th scope="col">Supprimer Utilisateur</th>
+                <th scope="col">Ajouter Groupe</th>
+                <th scope="col">Supprimer Groupe</th>
             </tr>
             <?php foreach ($recordset as $row) {?>
                 <tr>
-                    <td><?= $row["group_name"];?></td>
-                    <td><a style="text-decoration: none;" href="delete.php?id=<?= $row["group_id"];?>" title="Supprimer le groupe">🗑</a></td>
-                    <td><a style="text-decoration: none;" href="form.php?id=<?= $row["group_id"];?>" title="Modifier le groupe">📝</a></td>
-                    <td><a style="text-decoration: none;" href="../userXgroup/add-index.php?id=<?= $row["group_id"];?>" title="Ajouter au groupe">➕</a></td>
-                    <td><a style="text-decoration: none;" href="../userXgroup/delete-index.php?id=<?= $row["group_id"];?>" title="Supprimer du groupe">➖</a></td>
+                    <td><?= $row["category_name"];?></td>
+                    <td><a style="text-decoration: none;" href="delete.php?id=<?= $row["category_id"];?>" title="Supprimer le groupe">🗑</a></td>
+                    <td><a style="text-decoration: none;" href="form.php?id=<?= $row["category_id"];?>" title="Modifier le groupe">📝</a></td>
+                    <td><a style="text-decoration: none;" href="../groupXcategory/add-index.php?id=<?= $row["category_id"];?>" title="Ajouter à la categorie">➕</a></td>
+                    <td><a style="text-decoration: none;" href="../groupXcategory/delete-index.php?id=<?= $row["category_id"];?>" title="Supprimer de la categorie">➖</a></td>
                 </tr>
             <?php }?>
         </table>
