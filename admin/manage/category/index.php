@@ -29,14 +29,18 @@ $recordset = $stmt->fetchAll();
                 <th scope="col">Modifier</th>
                 <th scope="col">Ajouter Groupe</th>
                 <th scope="col">Supprimer Groupe</th>
+                <th scope="col">Ajouter Salon</th>
+                <th scope="col">Supprimer Salon</th>
             </tr>
             <?php foreach ($recordset as $row) {?>
                 <tr>
                     <td><?= $row["category_name"];?></td>
                     <td><a style="text-decoration: none;" href="delete.php?id=<?= $row["category_id"];?>" title="Supprimer le groupe">🗑</a></td>
                     <td><a style="text-decoration: none;" href="form.php?id=<?= $row["category_id"];?>" title="Modifier le groupe">📝</a></td>
-                    <td><a style="text-decoration: none;" href="../groupXcategory/add-index.php?id=<?= $row["category_id"];?>" title="Ajouter à la categorie">➕</a></td>
-                    <td><a style="text-decoration: none;" href="../groupXcategory/delete-index.php?id=<?= $row["category_id"];?>" title="Supprimer de la categorie">➖</a></td>
+                    <td><a style="text-decoration: none;" href="../groupXcategory/add-index.php?id=<?= $row["category_id"];?>" title="Ajouter groupe">➕</a></td>
+                    <td><a style="text-decoration: none;" href="../groupXcategory/delete-index.php?id=<?= $row["category_id"];?>" title="Supprimer groupe">➖</a></td>
+                    <td><a style="text-decoration: none;" href="../channel/add-index.php?id=<?= $row["category_id"];?>" title="Ajouter salon">➕</a></td>
+                    <td><a style="text-decoration: none;" href="../channel/delete-index.php?id=<?= $row["category_id"];?>" title="Supprimer salon">➖</a></td>
                 </tr>
             <?php }?>
         </table>
