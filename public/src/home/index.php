@@ -57,18 +57,6 @@
 </head>
 <body class="bg-primary text-dark_surface_text font-paragraphs">
     <div class="h-screen">
-        <header class="flex justify-between items-center pl-6 pr-6 bg-primary text-dark_surface_text">
-            <!-- Image logo -->
-            <div>
-                <img class="size-16" src="../assets/img/Alerte_MNS_Logo.png" alt="MNS Logo">
-            </div>
-            <div class="flex space-x-2">
-                <p class="font-bold text-xl">MENU</p>
-                <button class="text-dark_surface_text">
-                    <i class="fas fa-bars"></i>
-                </button>
-            </div>
-        </header>
         <!-- Main content -->
         <main class="text-center py-20" style="background-image: url(../assets/img/lightbulbs-hero.webp); background-size: cover;">
             <div class="max-w-6xl mx-auto">
@@ -87,7 +75,8 @@
         <h3 class="text-4xl font-bold font-titles text-primary">LES ATOUTS MNS</h3>
     </div>
     <div class="flex h-4/6 justify-center space-x-4">
-        <!-- Repeat this block for each feature -->
+
+        <!-- Community Feature -->
         <div class="max-w-sm rounded-3xl overflow-hidden shadow-lg bg-primary text-light_surface_text p-4">
             <div class="px-6 py-4">
                 <div class="flex justify-center mb-4">
@@ -99,7 +88,8 @@
                 </p>
             </div>
         </div>
-        <!-- ... other features ... -->
+
+        <!-- Teaching Feature -->
         <div class="max-w-sm rounded-3xl overflow-hidden shadow-lg bg-primary text-light_surface_text p-4">
             <div class="px-6 py-4">
                 <div class="flex justify-center mb-4">
@@ -111,6 +101,8 @@
                 </p>
             </div>
         </div>
+
+        <!-- Innovation Feature -->
         <div class="max-w-sm rounded-3xl overflow-hidden shadow-lg bg-primary text-light_surface_text p-4">
             <div class="px-6 py-4">
                 <div class="flex justify-center mb-4">
@@ -126,13 +118,14 @@
     </div>
 </section>
 
-<!-- Comment ça Fonctionne Section -->
+<!-- How It Works Section -->
 <section class="py-12 h-screen bg-primary">
     <div class="text-center mb-8">
         <h3 class="text-4xl font-bold font-titles text-primary">Comment ça Fonctionne</h3>
     </div>
     <div class="flex justify-center space-x-4">
-        <!-- Repeat this block for each step -->
+
+        <!-- Creating your account -->
         <div class="max-w-sm rounded-3xl overflow-hidden shadow-lg bg-subtle_highlight text-light_surface_text p-4">
             <div class="px-6 py-4">
                 <div class="flex justify-center mb-4">
@@ -144,7 +137,8 @@
                 </p>
                 </div>
             </div>
-        <!-- ... other steps ... -->
+
+        <!-- Conversate with your peers -->
         <div class="max-w-sm rounded-3xl overflow-hidden shadow-lg bg-subtle_highlight text-light_surface_text p-4">
             <div class="px-6 py-4">
                 <div class="flex justify-center mb-4">
@@ -158,6 +152,7 @@
                 </div>
             </div>
 
+        <!-- Share & Collaborate -->
         <div class="max-w-sm rounded-3xl overflow-hidden shadow-lg bg-subtle_highlight text-light_surface_text p-4">
             <div class="px-6 py-4">
                 <div class="flex justify-center mb-4">
@@ -177,7 +172,8 @@
         <h3 class="text-4xl font-bold font-titles text-primary">Dernières Mises à Jours</h3>
     </div>
     <div class="flex justify-center space-x-4">
-        <!-- Repeat this block for each update -->
+
+        <!-- New Features -->
         <div class="max-w-sm rounded-3xl overflow-hidden shadow-lg bg-primary text-light_surface_text p-4">
             <div class="px-6 py-4">
                 <div class="font-bold text-secondary text-xl mb-2">Nouvelle Fonctionnalité</div>
@@ -189,7 +185,8 @@
                 <span class="inline-block bg-secondary rounded-full px-3 py-1 text-sm font-semibold text-dark_surface_text mr-2 mb-2">En Savoir Plus</span>
             </div>
         </div>
-        <!-- ... other updates ... -->
+
+        <!-- Events -->
         <div class="max-w-sm rounded-3xl overflow-hidden shadow-lg bg-primary text-light_surface_text p-4">
             <div class="px-6 py-4">
                 <div class="font-bold text-secondary text-xl mb-2">Évènements</div>
@@ -201,6 +198,8 @@
                 <span class="inline-block bg-secondary rounded-full px-3 py-1 text-sm font-semibold text-dark_surface_text mr-2 mb-2">En Savoir Plus</span>
             </div>
         </div>
+
+        <!-- Maintenance -->
         <div class="max-w-sm rounded-3xl overflow-hidden shadow-lg bg-primary text-light_surface_text p-4">
             <div class="px-6 py-4">
                 <div class="font-bold text-secondary text-xl mb-2">Maintenance</div>
@@ -241,6 +240,5 @@
             <p class="text-sm">&copy; 2024 Copyright Metz Numeric School. Tous droits réservés. </p>
     </div>
 </footer>
-
 </body>
 </html>
