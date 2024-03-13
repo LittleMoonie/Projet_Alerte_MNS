@@ -8,13 +8,9 @@
     <title>Alerte-MNS | Admin</title>
 </head>
 <body>
-    <h1>Bienvenue <?= $_SESSION['user_name'];?></h1>
-    <!-- <?php
-    if (isset($_SESSION['mySession'])) {
-        echo $_SESSION['mySession']; 
-    }
-    ?> -->
-    <a class="btn btn-primary active" href="./manage/user/index.php">User Management</a>
-    <a class="btn btn-primary active" href="./manage/group/index.php">Group Management</a>
+    <h1>Administartion alerte MNS</h1>
+    <a class="btn btn-primary active m-1" href="./manage/user/index.php">User Management</a>
+    <a class="btn btn-primary active m-1" href="./manage/group/index.php">Group Management</a>
+    <a class="btn btn-primary active m-1" href="./manage/category/index.php">Category Management</a>
 </body>
 </html>
