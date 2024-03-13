@@ -1,4 +1,13 @@
-<?php require_once $_SERVER['DOCUMENT_ROOT']."/admin/include/connect.php";
+<?php
+session_start();
+require_once $_SERVER['DOCUMENT_ROOT']."/public/src/chat/connection/connect.php";
+
+// Check if the user is already logged in
+if (isset($_SESSION['mySession']) && $_SESSION['mySession'] == "042") {
+    // Redirect the user to the chat page
+    header("Location: /public/src/chat/chat.php");
+    exit();
+}
 
 $errorMsg = "";
 
@@ -9,7 +18,7 @@ if (isset($_POST['mail']) && isset($_POST['password'])) {
     $sql = "SELECT * FROM users 
         INNER JOIN userXgroup ON users.user_id = userXgroup.user_id 
         INNER JOIN user_group ON userXgroup.group_id = user_group.group_id 
-        WHERE user_mail = :mail AND user_group.group_name='admin'";
+        WHERE user_mail = :mail";
     
     $stmt = $db->prepare($sql);
     $stmt->execute([':mail'=>$userMail]);
@@ -18,9 +27,9 @@ if (isset($_POST['mail']) && isset($_POST['password'])) {
         if(password_verify($userPwd, $row['user_password'])) {
             session_start();
             $_SESSION['mySession'] = "042";
-            $_SESSION['user_name'] = $row['user_mail'];
+            $_SESSION['user_mail'] = $userMail;
 
-            header("Location:index.php");
+            header("Location:../chat.php");
             exit();
         }
         else {

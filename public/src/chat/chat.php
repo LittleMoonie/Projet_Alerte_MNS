@@ -1,3 +1,6 @@
+<?php include $_SERVER["DOCUMENT_ROOT"]."/public/src/chat/connection/protect.php"; 
+require_once $_SERVER["DOCUMENT_ROOT"]."/public/src/chat/connection/connect.php";
+?>
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -61,11 +64,46 @@
 <body class="bg-background_color">
     <div class="flex h-screen overflow-hidden">
         <!-- Sidebar -->
-        <div class="w-1/5 bg-primary text-dark_surface_text p-4 space-y-4">
+        <div class="w-1/5 bg-primary text-dark_surface_text p-4 space-y-4" id="sidebar">
             <div class="text-white text-lg font-bold mb-4">MNS</div>
             <div class="space-y-2">
                 <!-- Sidebar items -->
-                <div class="bg-secondary text-light_surface_text p-2 rounded">BSD 22/24</div>
+                <?php 
+                    // Fetch categories and channels the current user belongs to from the database
+                    $sql = "SELECT category_name, category_id, channel_name, channel_id, group_id
+                            FROM category, channel, groupXcategory
+                            WHERE category.category_id = groupXcategory.category_id
+                            AND channel.category_id = groupXcategory.category_id
+                            AND group_id = (SELECT group_id FROM userXgroup WHERE user_id = (SELECT user_id FROM users WHERE user_mail = :userEmail))";
+
+                    $stmt = $db->prepare($sql);
+                    $stmt->execute([":userEmail" => $_SESSION['user_mail']]);
+                    $recordset = $stmt->fetchAll();
+
+                    // Store categories and channels in an associative array
+                    $categories = [];
+                    foreach ($recordset as $row) {
+                        $category = $row['category_name'];
+                        $channel = $row['channel_name'];
+                        $channelId = $row['channel_id'];
+                        
+                        // Create category array if it doesn't exist
+                        if (!array_key_exists($category, $categories)) {
+                            $categories[$category] = [];
+                        }
+                        
+                        // Add channel to the category array
+                        $categories[$category][$channelId] = $channel;
+                    }
+
+                    // Generate sidebar items dynamically for each category and channel
+                    foreach ($categories as $category => $channels) {
+                        echo "<div class='text-secondary text-lg font-bold'>$category</div>";
+                        foreach ($channels as $channelId => $channel) {
+                            echo "<a href='#' class='text-light_surface_text hover:text-white'>$channel</a>";
+                        }
+                    }
+                  ?>
                 <!-- Add more sidebar items -->
             </div>
         </div>
@@ -74,7 +112,7 @@
         <div class="flex-1 flex flex-col bg-background_color">
             <!-- Chat header -->
             <div class="p-4 border-b border-subtle_highlight flex justify-between items-center">
-                <div class="font-bold text-dark_surface_text"># BSD 22/24 | Général</div>
+                <div class="text-light_surface_text text-lg font-bold"># BSD 22/24 | Général</div>
                 <div class="space-x-2">
                     <!-- Header icons -->
                 </div>
@@ -121,6 +159,8 @@
             </div>
         </div>
     </div>
+    <!-- Logout -->
+    <a href="../connection/logout.php" class="fixed bottom-4 right-4 bg-main_button text-light_surface_text px-4 py-2 rounded">Logout</a>
 </body>
 <script src="js/main.js"></script>
 <script src="js/websocket.js"></script>

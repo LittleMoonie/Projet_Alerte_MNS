@@ -109,3 +109,4 @@ users.forEach(user => {
     userDiv.classList.add('text-dark_surface_text', 'p-2');
     rightSidebar.appendChild(userDiv);
 });
+

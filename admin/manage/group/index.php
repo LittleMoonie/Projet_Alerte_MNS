@@ -1,6 +1,6 @@
 <?php include $_SERVER["DOCUMENT_ROOT"]."/admin/include/connect.php";
 
-$sql = "SELECT * FROM table_user_group ORDER BY group_name ASC";
+$sql = "SELECT * FROM user_group ORDER BY group_name ASC";
 $stmt = $db->prepare($sql);
 $stmt->execute();
 $recordset = $stmt->fetchAll();
