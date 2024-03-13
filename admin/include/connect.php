@@ -2,7 +2,7 @@
 $host = 'localhost';
 $name = 'alerte-mns';
 $username = 'root';
-$password = 'i9vgQYzEemj5C6';
+$password = '';
 
 try {
 

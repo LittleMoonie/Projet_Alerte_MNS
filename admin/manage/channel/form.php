@@ -2,23 +2,17 @@
 
 $categoryName = "";
 $categoryId = 0;
+$channelId = 0;
 
-if(isset($_GET['id']) && $_GET['id'] > 0) {
-    $sql = "SELECT * FROM category WHERE category_id=:id";
+if(isset($_GET['cat_id']) && $_GET['cat_id'] > 0) {
+    $sql = "SELECT category_id FROM category WHERE category_id=:id";
     $stmt = $db->prepare($sql);
-    $stmt->execute([":id"=>$_GET['id']]);
+    $stmt->execute([":id"=>$_GET['cat_id']]);
 
     if($row = $stmt->fetch()) {
         $groupId = $row['category_id'];
-        $groupName = $row['category_name'];
     }
 }
-
-$sql1 = "SELECT * FROM category WHERE category_id=:id";
-$stmt1 = $db->prepare($sql1);
-$stmt1->execute([":id"=>$_GET['id']]);
-
-$recordset = $stmt1->fetchAll();
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -29,10 +23,12 @@ $recordset = $stmt1->fetchAll();
 </head>
 <body>
     <form action="process.php" method="POST">
-        <input type="hidden" name="id" value="<?=$categoryId?>"/>
+        <input type="hidden" name="cat_id" value="<?=$categoryId?>"/>
+        <input type="hidden" name="channel_id" value="<?=$channelId?>"/>
+
         <br/>Nom<br/>
-        <input type="text" name="name" value="<?=$categoryName?>"/>
-        <br/>
+        <input type="text" name="name" value=""/>
+
         <input type="submit" name="submit"/>
     </form>
 </body>

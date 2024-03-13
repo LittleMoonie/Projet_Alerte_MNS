@@ -4,7 +4,3 @@ if (!isset($_SESSION['mySession']) || $_SESSION['mySession'] != "042") {
     exit();
 }
 ?>
-
-<?php include $_SERVER["DOCUMENT_ROOT"]."/public/src/chat/connection/protect.php"; 
-require_once $_SERVER["DOCUMENT_ROOT"]."/public/src/chat/connection/connect.php";
-?>
