@@ -25,7 +25,8 @@ class Chat_Websocket implements MessageComponentInterface {
         // Store the message in the database
         $userId = $from->userId; // Assuming you set userId when the user connects
         $timestamp = date("Y-m-d H:i:s");
-        $this->saveMessageToDatabase($userId, $msg, $timestamp);
+        $channelId = $_GET['channel_id'];
+        $this->saveMessageToDatabase($userId, $msg, $timestamp, $channelId);
 
         // Broadcast the message to all clients
         foreach ($this->clients as $client) {
@@ -33,9 +34,17 @@ class Chat_Websocket implements MessageComponentInterface {
         }
     }
 
-    protected function saveMessageToDatabase($userId, $message, $timestamp) {
-        $stmt = $this->db->prepare("INSERT INTO messages (user_id, message, timestamp) VALUES (?, ?, ?)");
-        $stmt->execute([$userId, $message, $timestamp]);
+    protected function saveMessageToDatabase($userId, $message, $timestamp, $channel) {
+        $sql = "INSERT INTO message (message_sender_id, message_content, message_timestamp, message_file_type, message_channel_id) VALUES (:user, :content, :timestamp, 'text', :channel)";
+        $stmt = $db->prepare($sql);
+        $stmt-> bindParam(':user', $userId);
+        $stmt-> bindParam(':content', $message);
+        $stmt-> bindParam(':timestamp', $timestamp);
+        $stmt-> bindParam(':channel', $channel);
+        $stmt->execute();
+
+        /*$stmt = $this->db->prepare("INSERT INTO messages (user_id, message, timestamp) VALUES (?, ?, ?)");
+        $stmt->execute([$userId, $message, $timestamp]);*/
     }
 
     public function onClose(ConnectionInterface $conn) {

@@ -15,10 +15,7 @@ if (isset($_POST['mail']) && isset($_POST['password'])) {
     $userMail = $_POST['mail'];
     $userPwd = $_POST['password'];
 
-    $sql = "SELECT * FROM users /*
-        INNER JOIN userXgroup ON users.user_id = userXgroup.user_id 
-        INNER JOIN user_group ON userXgroup.group_id = user_group.group_id */
-        WHERE user_mail = :mail";
+    $sql = "SELECT * FROM users WHERE user_mail = :mail";
     
     $stmt = $db->prepare($sql);
     $stmt->execute([':mail'=>$userMail]);
@@ -50,7 +47,6 @@ if (isset($_POST['mail']) && isset($_POST['password'])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Alerte-MNS | login</title>
-    <link rel="stylesheet" href="./css/all.css">
 </head>
 <body>
     <form action="login.php" method="POST">
