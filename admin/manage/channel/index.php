@@ -13,7 +13,7 @@ if(isset($_GET['cat_id']) && $_GET['cat_id'] > 0) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Back-Office | Liste des groupes</title>
+    <title>Back-Office | Liste des salons</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
@@ -59,16 +59,18 @@ if(isset($_GET['cat_id']) && $_GET['cat_id'] > 0) {
     </header>
     <main class="container mx-auto mt-4 px-4">
         <a class="bg-gray-500 hover:bg-gray-700 text-white py-2 px-4 rounded" href="../category/index.php">Retour Accueil Catégorie</a>
+        <a class="bg-green-500 hover:bg-green-700 text-white py-2 px-4 rounded" href="./form.php">Créer Salon</a>
         <h1 class="text-3xl font-bold mt-5 mb-3">Liste des salons</h1>
         <table class="table-auto w-full text-left whitespace-no-wrap">
             <tr>
                 <th class="px-4 py-2">Nom</th>
-                <th class="px-4 py-2">Supprimer</th>
                 <th class="px-4 py-2">Modifier</th>
+                <th class="px-4 py-2">Supprimer</th>
             </tr>
             <?php foreach ($recordset as $row) {?>
                 <tr>
                     <td class="border px-4 py-2"><?= $row["channel_name"];?></td>
+                    <td class="border px-4 py-2"><a class="no-underline" href="form.php?channel_id=<?= $row["channel_id"];?>&cat_id=<?= $row["channel_category_id"];?>" title="Modifier le salon">📝</a></td>
                     <td class="border px-4 py-2"><a class="no-underline" href="delete.php?channel_id=<?= $row["channel_id"];?>" title="Supprimer de la categorie">➖</a></td>
                 </tr>
             <?php }?>

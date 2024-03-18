@@ -67,8 +67,9 @@ $recordset = $stmt->fetchAll();
                     <th class="px-4 py-2">Modifier</th>
                     <th class="px-4 py-2">Ajouter Groupe</th>
                     <th class="px-4 py-2">Supprimer Groupe</th>
-                    <th class="px-4 py-2">Ajouter Salon</th>
-                    <th class="px-4 py-2">Supprimer Salon</th>
+                    <th class="px-4 py-2">Modifier les salons</th>
+                    <!-- <th class="px-4 py-2">Ajouter Salon</th>
+                    <th class="px-4 py-2">Supprimer Salon</th> -->
                 </tr>
             </thead>
             <tbody>
@@ -79,8 +80,9 @@ $recordset = $stmt->fetchAll();
                         <td class="border px-4 py-2"><a class="no-underline" href="form.php?id=<?= $row["category_id"];?>" title="Modifier le groupe">📝</a></td>
                         <td class="border px-4 py-2"><a class="no-underline" href="../groupXcategory/add-index.php?id=<?= $row["category_id"];?>" title="Ajouter groupe">➕</a></td>
                         <td class="border px-4 py-2"><a class="no-underline" href="../groupXcategory/delete-index.php?id=<?= $row["category_id"];?>" title="Supprimer groupe">➖</a></td>
-                        <td class="border px-4 py-2"><a class="no-underline" href="../channel/form.php?cat_id=<?= $row["category_id"];?>" title="Ajouter salon">➕</a></td>
-                        <td class="border px-4 py-2"><a class="no-underline" href="../channel/delete-index.php?cat_id=<?= $row["category_id"];?>" title="Supprimer salon">➖</a></td>
+                        <!-- <td class="border px-4 py-2"><a class="no-underline" href="../channel/form.php?cat_id=<?= $row["category_id"];?>" title="Ajouter salon">➕</a></td>
+                        <td class="border px-4 py-2"><a class="no-underline" href="../channel/delete-index.php?cat_id=<?= $row["category_id"];?>" title="Supprimer salon">➖</a></td> -->
+                        <td class="border px-4 py-2"><a class="no-underline" href="../channel/index.php?cat_id=<?= $row["category_id"];?>" title="Voir les salons">📖</a></td>
                     </tr>
                 <?php }?>
             </tbody>

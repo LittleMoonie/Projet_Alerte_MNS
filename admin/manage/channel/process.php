@@ -1,7 +1,9 @@
 <?php require_once $_SERVER["DOCUMENT_ROOT"]."/admin/include/connect.php";
 
-$channelName = "";
 $categoryId = 0;
+$channelId = 0;
+$channelName = "";
+$channelDesc = "";
 
 if(isset($_POST['name']))
     $channelName = $_POST['name'];
@@ -23,5 +25,5 @@ else {
 $stmt->bindParam(':name',$channelName);
 $stmt->execute();
 
-header("Location:../category/index.php");
+header('Location:index.php?cat_id='.$categoryId);
 ?>
