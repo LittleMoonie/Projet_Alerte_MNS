@@ -31,7 +31,7 @@ CREATE TABLE user_preference(
    preference_content VARCHAR(200),
    user_id INT NOT NULL,
    PRIMARY KEY(preference_id),
-   FOREIGN KEY(user_id) REFERENCES table_user(user_id)
+   FOREIGN KEY(user_id) REFERENCES users(user_id)
 );
 
 CREATE TABLE moderation_queue(
@@ -43,7 +43,7 @@ CREATE TABLE moderation_queue(
    queue_status VARCHAR(50),
    user_id INT NOT NULL,
    PRIMARY KEY(queue_id),
-   FOREIGN KEY(user_id) REFERENCES table_user(user_id)
+   FOREIGN KEY(user_id) REFERENCES users(user_id)
 );
 
 CREATE TABLE moderation_action(
@@ -54,16 +54,16 @@ CREATE TABLE moderation_action(
    action_notes VARCHAR(400),
    queue_id INT NOT NULL,
    PRIMARY KEY(action_id),
-   FOREIGN KEY(queue_id) REFERENCES table_moderation_queue(queue_id)
+   FOREIGN KEY(queue_id) REFERENCES moderation_queue(queue_id)
 );
 
 CREATE TABLE category(
    category_id INT AUTO_INCREMENT,
    category_name VARCHAR(50),
    category_description VARCHAR(200),
-   user_id INT NOT NULL,
+   group_id INT NOT NULL,
    PRIMARY KEY(category_id),
-   FOREIGN KEY(user_id) REFERENCES table_user(user_id)
+   FOREIGN KEY(group_id) REFERENCES user_group(group_id)
 );
 
 CREATE TABLE audit_log(
@@ -73,7 +73,7 @@ CREATE TABLE audit_log(
    log_details VARCHAR(200),
    user_id INT NOT NULL,
    PRIMARY KEY(log_id),
-   FOREIGN KEY(user_id) REFERENCES table_user(user_id)
+   FOREIGN KEY(user_id) REFERENCES users(user_id)
 );
 
 CREATE TABLE user_group(
@@ -108,7 +108,7 @@ CREATE TABLE channel(
    channel_description VARCHAR(400),
    category_id INT,
    PRIMARY KEY(channel_id),
-   FOREIGN KEY(category_id) REFERENCES table_category(category_id)
+   FOREIGN KEY(category_id) REFERENCES category(category_id)
 );
 
 CREATE TABLE message(
@@ -120,8 +120,8 @@ CREATE TABLE message(
    user_id INT NOT NULL,
    channel_id INT NOT NULL,
    PRIMARY KEY(message_id),
-   FOREIGN KEY(user_id) REFERENCES table_user(user_id),
-   FOREIGN KEY(channel_id) REFERENCES table_channel(channel_id)
+   FOREIGN KEY(user_id) REFERENCES users(user_id),
+   FOREIGN KEY(channel_id) REFERENCES channel(channel_id)
 );
 
 CREATE TABLE user_see(
@@ -130,78 +130,78 @@ CREATE TABLE user_see(
    message_id INT NOT NULL,
    user_id INT NOT NULL,
    PRIMARY KEY(see_id),
-   FOREIGN KEY(message_id) REFERENCES table_message(message_id),
-   FOREIGN KEY(user_id) REFERENCES table_user(user_id)
+   FOREIGN KEY(message_id) REFERENCES message(message_id),
+   FOREIGN KEY(user_id) REFERENCES users(user_id)
 );
 
-CREATE TABLE userXcategory(
-   user_id INT,
+CREATE TABLE groupXcategory(
+   group_id INT,
    category_id INT,
-   PRIMARY KEY(user_id, category_id),
-   FOREIGN KEY(user_id) REFERENCES table_user(user_id),
-   FOREIGN KEY(category_id) REFERENCES table_category(category_id)
+   PRIMARY KEY(group_id, category_id),
+   FOREIGN KEY(group_id) REFERENCES user_group(group_id),
+   FOREIGN KEY(category_id) REFERENCES category(category_id)
 );
 
 CREATE TABLE userXcall(
    user_id INT,
    call_id INT,
    PRIMARY KEY(user_id, call_id),
-   FOREIGN KEY(user_id) REFERENCES table_user(user_id),
-   FOREIGN KEY(call_id) REFERENCES table_call(call_id)
+   FOREIGN KEY(user_id) REFERENCES users(user_id),
+   FOREIGN KEY(call_id) REFERENCES call(call_id)
 );
 
 CREATE TABLE userXcalendar(
    user_id INT,
    event_id INT,
    PRIMARY KEY(user_id, event_id),
-   FOREIGN KEY(user_id) REFERENCES table_user(user_id),
-   FOREIGN KEY(event_id) REFERENCES table_event_calendar(event_id)
+   FOREIGN KEY(user_id) REFERENCES users(user_id),
+   FOREIGN KEY(event_id) REFERENCES event_calendar(event_id)
 );
 
 CREATE TABLE userXgroup(
    user_id INT,
    group_id INT,
    PRIMARY KEY(user_id, group_id),
-   FOREIGN KEY(user_id) REFERENCES table_user(user_id),
-   FOREIGN KEY(group_id) REFERENCES table_user_group(group_id)
+   FOREIGN KEY(user_id) REFERENCES users(user_id),
+   FOREIGN KEY(group_id) REFERENCES user_group(group_id)
 );
 
 CREATE TABLE channelXperm(
    channel_id INT,
    perm_id INT,
    PRIMARY KEY(channel_id, perm_id),
-   FOREIGN KEY(channel_id) REFERENCES table_channel(channel_id),
-   FOREIGN KEY(perm_id) REFERENCES table_permission(perm_id)
+   FOREIGN KEY(channel_id) REFERENCES channel(channel_id),
+   FOREIGN KEY(perm_id) REFERENCES permission(perm_id)
 );
 
 CREATE TABLE groupXperm(
    group_id INT,
    perm_id INT,
    PRIMARY KEY(group_id, perm_id),
-   FOREIGN KEY(group_id) REFERENCES table_user_group(group_id),
-   FOREIGN KEY(perm_id) REFERENCES table_permission(perm_id)
+   FOREIGN KEY(group_id) REFERENCES user_group(group_id),
+   FOREIGN KEY(perm_id) REFERENCES permission(perm_id)
 );
 
 CREATE TABLE logsXtype(
    log_id INT,
    logs_type_id INT,
    PRIMARY KEY(log_id, logs_type_id),
-   FOREIGN KEY(log_id) REFERENCES table_audit_log(log_id),
-   FOREIGN KEY(logs_type_id) REFERENCES table_logs_type(logs_type_id)
+   FOREIGN KEY(log_id) REFERENCES audit_log(log_id),
+   FOREIGN KEY(logs_type_id) REFERENCES logs_type(logs_type_id)
 );
 
 CREATE TABLE moderationXtype(
    action_id INT,
    moderation_type_id INT,
    PRIMARY KEY(action_id, moderation_type_id),
-   FOREIGN KEY(action_id) REFERENCES table_moderation_action(action_id),
-   FOREIGN KEY(moderation_type_id) REFERENCES table_moderation_type(moderation_type_id)
+   FOREIGN KEY(action_id) REFERENCES moderation_action(action_id),
+   FOREIGN KEY(moderation_type_id) REFERENCES moderation_type(moderation_type_id)
 );
 
 CREATE TABLE pin(
    user_id INT,
    message_id INT,
    PRIMARY KEY(user_id, message_id),
-   FOREIGN KEY(user_id) REFERENCES table_user(user_id),
-   FOREIGN KEY(message_id) REFERENCES table_message(message_id)
+   FOREIGN KEY(user_id) REFERENCES users(user_id),
+   FOREIGN KEY(message_id) REFERENCES message(message_id)
 );

@@ -1,6 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  content: ["./public/src/**/*'{.html,.js,.css}"],
+  content: ["public/src/**/*.{html,js}"],
   theme: {
     extend: {
       colors: {
@@ -24,7 +24,7 @@ module.exports = {
         xl: '1200px'
       },
       borderRadius: {
-        'message_button': '10px'
+        'header_button': '50px'
       },
       width: {
         '380': '380px'
@@ -35,5 +35,10 @@ module.exports = {
     }
   },
   plugins: [],
+  variants: {
+    extend: {
+      backgroundColor: ['active'],
+      textColor: ['active']
+    }
+  }
 }
-
