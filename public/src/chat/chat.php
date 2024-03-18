@@ -144,18 +144,18 @@
                       <div class="flex items-start space-x-2">
                           <img src="../assets/img/ugo_pfp.png" alt="Avatar" class="h-10 w-10 rounded-full mb-4">
                           <div class="text-left">
-                              <div class="text-light_surface_text font-medium">Ugo Bretteil</div>
-                              <p class="bg-subtle_highlight text-light_surface_text text-lg font-medium rounded-message_button break-all p-2 max-w-md">Hey <span class="mention">@Lazaro</span>! aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa aaaaaaaa</p>
-                              <p class="text-light_surface_text font-normal text-xs">11/11/1001 - 12:00am</p>
+                              <div class="text-light_surface_text font-medium"><?= $message['message_sender_id']?></div>
+                              <p class="bg-subtle_highlight text-light_surface_text text-lg font-medium rounded-message_button break-all p-2 max-w-md"><?= $message['message_content']?></p>
+                              <p class="text-light_surface_text font-normal text-xs"><?= $message['message_timestamp']?></p>
                           </div>
                       </div>
                     <?php }
                     else { ?>
                       <div class="flex items-end space-x-2 justify-end">
                         <div class="text-left">
-                                <div class="text-light_surface_text font-medium">Lazaro</div>
-                                <p class="bg-subtle_highlight text-light_surface_text text-lg font-medium rounded-message_button break-all p-2 max-w-md">Hey <span class="mention">@Ugo</span>!</p>
-                                <p class="text-light_surface_text font-normal text-xs">11/11/1001 - 12:00am</p>
+                                <div class="text-light_surface_text font-medium"><?= $message['message_sender_id']?></div>
+                                <p class="bg-subtle_highlight text-light_surface_text text-lg font-medium rounded-message_button break-all p-2 max-w-md"><?= $message['message_content']?></p>
+                                <p class="text-light_surface_text font-normal text-xs"><?= $message['message_timestamp']?></p>
                             </div>
                             <img src="../assets/img/lazaro_pfp.gif" alt="Avatar" class="h-10 w-10 rounded-full mb-4">
                         </div>
@@ -165,8 +165,8 @@
                   ?>
 
                   <!-- Messages area -->
-                  <div id="messagesArea" class="flex-1 overflow-y-auto p-4 space-y-4" style="max-height: calc(100vh - 4rem);">
-                      <!-- Message -->
+                  <!-- <div id="messagesArea" class="flex-1 overflow-y-auto p-4 space-y-4" style="max-height: calc(100vh - 4rem);">
+                      Message
                       <div class="flex items-start space-x-2">
                           <img src="../assets/img/ugo_pfp.png" alt="Avatar" class="h-10 w-10 rounded-full mb-4">
                           <div class="text-left">
@@ -175,7 +175,7 @@
                               <p class="text-light_surface_text font-normal text-xs">11/11/1001 - 12:00am</p>
                           </div>
                       </div>
-                      <!-- Response -->
+                      Response
                       <div class="flex items-end space-x-2 justify-end">
                       <div class="text-left">
                               <div class="text-light_surface_text font-medium">Lazaro</div>
@@ -184,8 +184,8 @@
                           </div>
                           <img src="../assets/img/lazaro_pfp.gif" alt="Avatar" class="h-10 w-10 rounded-full mb-4">
                       </div>
-                      <!-- Add more messages -->
-                  </div>
+                      Add more messages
+                  </div> -->
 
                   <!-- Message input -->
                   <div class="border-t border-subtle_highlight p-4 flex items-center">
@@ -221,8 +221,9 @@
             </div>
         </div>
         <?php } ?>
+
         <!-- Logout -->
-        <a href="../connection/logout.php" class="fixed bottom-4 right-4 bg-main_button text-light_surface_text px-4 py-2 rounded">Logout</a>
+        <a href="../chat/connection/logout.php" class="fixed bottom-4 right-4 bg-main_button text-light_surface_text px-4 py-2 rounded">Logout</a>
     </body>
     <script src="js/main.js"></script>
     <script src="js/websocket.js"></script>
