@@ -12,7 +12,7 @@ class Chat_Websocket implements MessageComponentInterface {
         $this->clients = new \SplObjectStorage;
 
         // Connect to the database using connect.php
-        require_once $_SERVER["DOCUMENT_ROOT"]."/connection/connect.php";
+        require_once "C:\wamp64\www\alerteMNS\admin\include\connect.php";
     }
 
     public function onOpen(ConnectionInterface $conn) {
@@ -35,6 +35,8 @@ class Chat_Websocket implements MessageComponentInterface {
     }
 
     protected function saveMessageToDatabase($userId, $message, $timestamp, $channel) {
+        require_once "C:\wamp64\www\alerteMNS\admin\include\connect.php";
+
         $sql = "INSERT INTO message (message_sender_id, message_content, message_timestamp, message_file_type, message_channel_id) VALUES (:user, :content, :timestamp, 'text', :channel)";
         $stmt = $db->prepare($sql);
         $stmt-> bindParam(':user', $userId);
@@ -57,4 +59,3 @@ class Chat_Websocket implements MessageComponentInterface {
         $conn->close();
     }
 }
-
