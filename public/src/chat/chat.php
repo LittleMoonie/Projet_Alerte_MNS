@@ -1,5 +1,14 @@
 <?php include $_SERVER["DOCUMENT_ROOT"]."/public/src/chat/connection/protect.php"; 
 require_once $_SERVER["DOCUMENT_ROOT"]."/public/src/chat/connection/connect.php";
+
+if (isset($_GET['channel'])) {
+  $sql = "SELECT * FROM message INNER JOIN users ON user_id = message_sender_id WHERE message_channel_id = :channel_id";
+  $stmt = $db->prepare($sql);
+  $stmt->execute([":channel_id" => $_GET['channel']]);
+  $messages = $stmt->fetchAll();
+}
+
+
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -70,11 +79,19 @@ require_once $_SERVER["DOCUMENT_ROOT"]."/public/src/chat/connection/connect.php"
                 <!-- Sidebar items -->
                 <?php 
                     // Fetch categories and channels the current user belongs to from the database
-                    $sql = "SELECT category_name, gxc_category_id, channel_name, channel_id, gxc_group_id
-                            FROM category, channel, groupXcategory
-                            WHERE category.category_id = groupXcategory.gxc_category_id
-                            AND channel.channel_category_id = groupXcategory.gxc_category_id
-                            AND group_id = (SELECT group_id FROM userXgroup WHERE uxg_user_id = (SELECT user_id FROM users WHERE user_mail = :userEmail))";
+                    // $sql = "SELECT category_name, gxc_category_id, channel_name, channel_id, gxc_group_id
+                    //         FROM category, channel, groupXcategory
+                    //         WHERE category.category_id = groupXcategory.gxc_category_id
+                    //         AND channel.channel_category_id = groupXcategory.gxc_category_id
+                    //         AND group_id = (SELECT group_id FROM userXgroup WHERE uxg_user_id = (SELECT user_id FROM users WHERE user_mail = :userEmail))";
+
+                    $sql = "SELECT category_name, channel_name, channel_id
+                            FROM category
+                            INNER JOIN groupxcategory ON category_id = gxc_category_id
+                            INNER JOIN userxgroup ON gxc_group_id = uxg_group_id
+                            INNER JOIN users ON uxg_user_id = user_id
+                            INNER JOIN channel ON category_id = channel_category_id
+                            WHERE user_mail = :userEmail ORDER BY category_name ASC, channel_name ASC";
 
                     $stmt = $db->prepare($sql);
                     $stmt->execute([":userEmail" => $_SESSION['user_mail']]);
@@ -98,9 +115,9 @@ require_once $_SERVER["DOCUMENT_ROOT"]."/public/src/chat/connection/connect.php"
 
                     // Generate sidebar items dynamically for each category and channel
                     foreach ($categories as $category => $channels) {
-                        echo "<div class='text-secondary text-lg font-bold'>$category</div>";
+                        echo "<div class='text-secondary text-lg font-bold block'>$category</div>";
                         foreach ($channels as $channelId => $channel) {
-                            echo "<a href='#' class='text-light_surface_text hover:text-white'>$channel</a>";
+                            echo "<a href='?channel=$channelId' class='text-light_surface_text hover:text-white block ms-4'>$channel</a>";
                         }
                     }
                   ?>
@@ -108,60 +125,104 @@ require_once $_SERVER["DOCUMENT_ROOT"]."/public/src/chat/connection/connect.php"
             </div>
         </div>
 
+        <?php if (isset($_GET['channel'])) { 
+          $sql1 = "SELECT * FROM channel INNER JOIN category ON category_id = channel_category_id WHERE channel_id = :channel";
+          $stmt1 = $db->prepare($sql1);
+          $stmt1->execute([":channel" => $_GET['channel']]);
+          $recordset1 = $stmt1->fetch();
+        ?>
         <!-- Chat section -->
         <div class="flex-1 flex flex-col bg-background_color">
             <!-- Chat header -->
-            <div class="p-4 border-b border-subtle_highlight flex justify-between items-center">
-                <div class="text-light_surface_text text-lg font-bold"># BSD 22/24 | Général</div>
-                <div class="space-x-2">
-                    <!-- Header icons -->
-                </div>
-            </div>
+              <div class="p-4 border-b border-subtle_highlight flex justify-between items-center">
+                  <div class="text-light_surface_text text-lg font-bold"># <?= ucfirst($recordset1['channel_name']) ?> | <?= $recordset1['category_name'] ?></div>
+                  <div class="space-x-2">
+                      <!-- Header icons -->
+                  </div>
+              </div>
 
-            <!-- Messages area -->
-            <div id="messagesArea" class="flex-1 overflow-y-auto p-4 space-y-4" style="max-height: calc(100vh - 4rem);">
-                <!-- Message -->
-                <div class="flex items-start space-x-2">
-                    <img src="../assets/img/ugo_pfp.png" alt="Avatar" class="h-10 w-10 rounded-full mb-4">
-                    <div class="text-left">
-                        <div class="text-light_surface_text font-medium">Ugo Bretteil</div>
-                        <p class="bg-subtle_highlight text-light_surface_text text-lg font-medium rounded-message_button break-all p-2 max-w-md">Hey <span class="mention">@Lazaro</span>! aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa aaaaaaaa</p>
-                        <p class="text-light_surface_text font-normal text-xs">11/11/1001 - 12:00am</p>
-                    </div>
-                </div>
-                <!-- Response -->
-                <div class="flex items-end space-x-2 justify-end">
-                <div class="text-left">
-                        <div class="text-light_surface_text font-medium">Lazaro</div>
-                        <p class="bg-subtle_highlight text-light_surface_text text-lg font-medium rounded-message_button break-all p-2 max-w-md">Hey <span class="mention">@Ugo</span>!</p>
-                        <p class="text-light_surface_text font-normal text-xs">11/11/1001 - 12:00am</p>
-                    </div>
-                    <img src="../assets/img/lazaro_pfp.gif" alt="Avatar" class="h-10 w-10 rounded-full mb-4">
-                </div>
-                <!-- Add more messages -->
-            </div>
+              <!-- Messages area -->
+              <div id="messagesArea" class="flex-1 overflow-y-auto p-4 space-y-4" style="max-height: calc(100vh - 4rem);">
+                <?php foreach ($messages as $message) {
+                  $timestamp = $message['message_timestamp'];
 
-            <!-- Message input -->
-            <div class="border-t border-subtle_highlight p-4 flex items-center">
-                <textarea id="messageInput" placeholder="Message..." maxlength="2000" 
-                    class="flex-1 p-2 rounded border border-subtle_highlight mr-2 resize-none overflow-hidden 
-                    focus:outline-none focus:ring focus:border-blue-300 transition-all duration-300 ease-in-out"></textarea>
-                <div id="userList" class="absolute z-10 w-full bg-white border rounded shadow-lg hidden"></div>
-                <button id="sendButton" class="bg-main_button text-light_surface_text px-4 py-2 rounded">Send</button>
-            </div>
+                  $timestamp = explode("-", explode(" ", $timestamp)[0])[2]."/".explode("-", explode(" ", $timestamp)[0])[1]."/".explode("-", explode(" ", $timestamp)[0])[0].
+                              " - ".
+                              explode(":", explode(" ", $timestamp)[1])[0].":".explode(":", explode(" ", $timestamp)[1])[1];
+
+                  if ($message['message_sender_id'] == $_SESSION['userId']) { ?>
+                    <div class="flex items-end space-x-2 justify-end">
+                      <div class="text-left">
+                            <div class="text-light_surface_text font-medium"><?= $message['user_firstname']." ".$message['user_lastname']?></div>
+                            <p class="bg-subtle_highlight text-light_surface_text text-lg font-medium rounded-message_button break-all p-2 max-w-md"><?= $message['message_content']?></p>
+                            <p class="text-light_surface_text font-normal text-xs"><?= $timestamp?></p>
+                        </div>
+                        <img src="<?= '../../../upload/sm_'.$message['user_picture']?>" alt="Avatar" class="h-10 w-10 rounded-full mb-4">
+                    </div>
+                  <?php }
+                  else { ?> 
+                    <div class="flex items-start space-x-2">
+                        <img src="<?= '../../../upload/sm_'.$message['user_picture']?>" alt="Avatar" class="h-10 w-10 rounded-full mb-4">
+                        <div class="text-left">
+                            <div class="text-light_surface_text font-medium"><?= $message['user_firstname']." ".$message['user_lastname']?></div>
+                            <p class="bg-subtle_highlight text-light_surface_text text-lg font-medium rounded-message_button break-all p-2 max-w-md"><?= $message['message_content']?></p>
+                            <p class="text-light_surface_text font-normal text-xs"><?= $timestamp?></p>
+                        </div>
+                    </div>
+                  <?php }
+                } ?>
+              </div>
+
+              <!-- Message input -->
+              <div class="border-t border-subtle_highlight p-4 flex items-center">
+                  <textarea id="messageInput" placeholder="Message..." maxlength="2000" 
+                      class="flex-1 p-2 rounded border border-subtle_highlight mr-2 resize-none overflow-hidden 
+                      focus:outline-none focus:ring focus:border-blue-300 transition-all duration-300 ease-in-out"></textarea>
+                  <div id="userList" class="absolute z-10 w-full bg-white border rounded shadow-lg hidden"></div>
+                  <button id="sendButton" class="bg-main_button text-light_surface_text px-4 py-2 rounded">Send</button>
+              </div>
+              
         </div>
 
         <!-- Right sidebar -->
-        <div class="w-1/5 bg-primary text-dark_surface_text p-4 space-y-4">
-            <div class="text-secondary text-lg font-bold mb-4">Intervenants</div>
-            <div class="right-sidebar space-y-2">
-                <!-- Users would go here but are imported via class / db -->
-            </div>
-        </div>
+        <?php
+          $sql = "SELECT user_lastname, user_firstname, group_name
+                  FROM users
+                  INNER JOIN userxgroup ON user_id = uxg_user_id
+                  INNER JOIN user_group ON uxg_group_id = group_id
+                  INNER JOIN groupxcategory ON uxg_group_id = gxc_group_id
+                  INNER JOIN category ON gxc_category_id = category_id
+                  WHERE category_id = :cat_id
+                  ORDER BY group_name;";
+
+          $stmt = $db->prepare($sql);
+          $stmt->execute([":cat_id" => $recordset1['category_id']]);
+          $recordset = $stmt->fetchAll();
+
+          $groupname = "";
+        ?>
+          <div class="w-1/5 bg-primary text-dark_surface_text p-4 space-y-4">
+            <!-- Profile Manager Page -->
+            <a href="../userProfile.php"><i>User Profile</i></a>
+
+            <?php 
+            foreach($recordset as $row) {
+              if ($groupname != $row['group_name']) { ?>
+                <div class="text-secondary text-lg font-bold capitalize mb-4"><?= $row['group_name'] ?></div>
+              <?php } ?>
+              <div class="right-sidebar space-y-2">
+                  <?= $row['user_lastname'] ?> <?= $row['user_firstname'] ?>
+              </div>
+              <?php
+              $groupname = $row['group_name'];
+            } ?>
+          </div>
     </div>
+    <?php } ?>
+
     <!-- Logout -->
-    <a href="../connection/logout.php" class="fixed bottom-4 right-4 bg-main_button text-light_surface_text px-4 py-2 rounded">Logout</a>
+    <a href="../chat/connection/logout.php" class="fixed bottom-4 right-4 bg-main_button text-light_surface_text px-4 py-2 rounded">Logout</a>
 </body>
 <script src="js/main.js"></script>
 <script src="js/websocket.js"></script>
-</html>
+</html>  
