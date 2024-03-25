@@ -632,6 +632,10 @@ video {
   display: grid;
 }
 
+.h-screen {
+  height: 100vh;
+}
+
 .max-w-6xl {
   max-width: 72rem;
 }
@@ -650,10 +654,6 @@ video {
 
 .grid-cols-1 {
   grid-template-columns: repeat(1, minmax(0, 1fr));
-}
-
-.grid-cols-5 {
-  grid-template-columns: repeat(5, minmax(0, 1fr));
 }
 
 .grid-cols-4 {
@@ -888,11 +888,6 @@ video {
 .text-light_surface_text {
   --tw-text-opacity: 1;
   color: rgb(64 42 26 / var(--tw-text-opacity));
-}
-
-.text-primary {
-  --tw-text-opacity: 1;
-  color: rgb(21 27 53 / var(--tw-text-opacity));
 }
 
 .text-secondary {
