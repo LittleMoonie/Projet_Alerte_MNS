@@ -1,24 +1,26 @@
 <?php require_once $_SERVER["DOCUMENT_ROOT"]."/admin/include/connect.php";
 
-$categoryName = "";
+$channelId = 0;
 $categoryId = 0;
+$channelName = "";
+$channelDesc = "";
 
-if(isset($_GET['id']) && $_GET['id'] > 0) {
-    $sql = "SELECT * FROM category WHERE category_id=:id";
+if(isset($_GET['channel_id']) && $_GET['channel_id'] > 0) {
+    $sql = "SELECT * FROM channel WHERE channel_id=:id"; 
     $stmt = $db->prepare($sql);
-    $stmt->execute([":id"=>$_GET['id']]);
+    $stmt->execute([":id"=>$_GET['channel_id']]);
 
     if($row = $stmt->fetch()) {
-        $groupId = $row['category_id'];
-        $groupName = $row['category_name'];
+        $channelId = $row['channel_id'];
+        $channelName = $row['channel_name'];
+        $channelDesc = $row['channel_description'];
     }
 }
 
-$sql1 = "SELECT * FROM category WHERE category_id=:id";
-$stmt1 = $db->prepare($sql1);
-$stmt1->execute([":id"=>$_GET['id']]);
+if(isset($_GET['cat_id']) && $_GET['cat_id'] > 0) {
+    $categoryId = $_GET['cat_id'];
+}
 
-$recordset = $stmt1->fetchAll();
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -29,9 +31,15 @@ $recordset = $stmt1->fetchAll();
 </head>
 <body>
     <form action="process.php" method="POST">
-        <input type="hidden" name="id" value="<?=$categoryId?>"/>
+        <input type="hidden" name="cat_id" value="<?=$categoryId?>"/>
+        <input type="hidden" name="channel_id" value="<?=$channelId?>"/>
+
         <br/>Nom<br/>
-        <input type="text" name="name" value="<?=$categoryName?>"/>
+        <input type="text" name="name" value="<?=$channelName?>"/>
+
+        <br/>Description<br/>
+        <input type="text" name="description" value="<?=$channelDesc?>"/>
+
         <br/>
         <input type="submit" name="submit"/>
     </form>

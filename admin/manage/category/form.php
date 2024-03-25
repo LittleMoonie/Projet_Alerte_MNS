@@ -9,9 +9,15 @@ if(isset($_GET['id']) && $_GET['id'] > 0) {
     $stmt->execute([":id"=>$_GET['id']]);
 
     if($row = $stmt->fetch()) {
-        $groupId = $row['category_id'];
-        $groupName = $row['category_name'];
+        $categoryId = $row['category_id'];
+        $categoryName = $row['category_name'];
     }
+}
+else {
+    $sql = "SELECT * FROM user_group WHERE group_id!=1";
+    $stmt = $db->prepare($sql);
+    $stmt->execute();
+    $recordset = $stmt->fetchAll();
 }
 ?>
 <!DOCTYPE html>
@@ -27,6 +33,14 @@ if(isset($_GET['id']) && $_GET['id'] > 0) {
         <br/>Nom<br/>
         <input type="text" name="name" value="<?=$categoryName?>"/>
         <br/>
+        <?php if($categoryId == 0) {?>
+            Ajouter des groupes à la catégorie<br/>
+            <select multiple name="groups" id="groups">
+                <?php foreach($recordset as $row) {?>
+                    <option><?= $row['group_name']?></option>
+                <?php }?>
+            </select>
+        <?php }?>
         <input type="submit" name="submit"/>
     </form>
 </body>
