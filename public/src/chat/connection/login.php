@@ -83,4 +83,3 @@ if (isset($_POST['mail']) && isset($_POST['password'])) {
     </form>
 </body>
 </html>
-

@@ -1,5 +1,5 @@
 <?php include $_SERVER["DOCUMENT_ROOT"]."/public/src/chat/connection/protect.php"; 
-require_once $_SERVER["DOCUMENT_ROOT"]."/public/src/chat/connection/connect.php";
+require_once $_SERVER["DOCUMENT_ROOT"]."/admin/include/connect.php";
 
 if (isset($_GET['channel'])) {
   $sql = "SELECT * FROM message INNER JOIN users ON user_id = message_sender_id WHERE message_channel_id = :channel_id";
@@ -224,5 +224,4 @@ if (isset($_GET['channel'])) {
     <a href="../chat/connection/logout.php" class="fixed bottom-4 right-4 bg-main_button text-light_surface_text px-4 py-2 rounded">Logout</a>
 </body>
 <script src="js/main.js"></script>
-<script src="js/websocket.js"></script>
 </html>  
