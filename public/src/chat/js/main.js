@@ -1,15 +1,4 @@
-class User {
-  constructor(id, username) {
-    this.id = id;
-    this.username = username;
-  }
-}
-
-const users = [
-  new User(1, "Ugo"),
-  new User(2, "Lazaro"),
-  new User(3, "Charlie"),
-];
+var mysql = require("mysql");
 
 const input = document.getElementById("messageInput");
 const userList = document.getElementById("userList");
@@ -123,14 +112,65 @@ function sendMessage(text, isCurrentUser) {
 
   conn.send(text); // Send the message text instead of the DOM element.
   console.log("Message Sent to Connection \n" + text);
-  // addDb(message);
+  var userId = document.cookie.userId;
+  var channelId = document.cookie.channelId;
+  var requestSql = `INSERT INTO message (message_sender_id, message_content, message_timestamp, message_file_type, message_channel_id) VALUES (${userId}, ${text}, ${""}, 'text', ${channelId})`;
+  mysqlFunction(requestSql);
   messagesArea.scrollTop = messagesArea.scrollHeight; // Scroll to the bottom to show the new message
 }
 
-const rightSidebar = document.querySelector(".right-sidebar");
-users.forEach((user) => {
-  const userDiv = document.createElement("div");
-  userDiv.textContent = user.username;
-  userDiv.classList.add("text-dark_surface_text", "p-2");
-  rightSidebar.appendChild(userDiv);
+const pool = mysql.createPool({
+  host: "localhost",
+  user: "root",
+  password: "",
+  database: "alerte-mns",
 });
+
+async function mysqlFunction(myRequest) {
+  console.log("toto");
+  var resultat = [];
+
+  let connection;
+
+  try {
+    // Acquérir une connexion à partir du pool
+    connection = await new Promise((resolve, reject) => {
+      pool.getConnection((err, conn) => {
+        if (err) {
+          console.error(
+            "Erreur lors de l'obtention de la connexion: " + err.stack
+          );
+          reject(err);
+          return;
+        }
+
+        console.log("Connecté à la base de données avec l'ID " + conn.threadId);
+        resolve(conn);
+      });
+    });
+
+    // Exécuter la requête
+    const results = await new Promise((resolve, reject) => {
+      connection.query(myRequest, (error, rows) => {
+        if (error) {
+          reject(error);
+          return;
+        }
+        resolve(rows);
+      });
+    });
+
+    if (myRequest[0] == "S")
+      // Ajouter les résultats au tableau
+      resultat.push(...results);
+  } catch (error) {
+    // Gérer les erreurs ici
+    console.error("Une erreur s'est produite :", error);
+  } finally {
+    // Libérer la connexion vers le pool
+    if (connection) {
+      connection.release();
+      return resultat;
+    }
+  }
+}
