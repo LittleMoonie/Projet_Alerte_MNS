@@ -112,10 +112,12 @@ function sendMessage(text, isCurrentUser) {
 
   conn.send(text); // Send the message text instead of the DOM element.
   console.log("Message Sent to Connection \n" + text);
+
   var userId = document.cookie.userId;
   var channelId = document.cookie.channelId;
   var requestSql = `INSERT INTO message (message_sender_id, message_content, message_timestamp, message_file_type, message_channel_id) VALUES (${userId}, ${text}, ${""}, 'text', ${channelId})`;
   mysqlFunction(requestSql);
+  
   messagesArea.scrollTop = messagesArea.scrollHeight; // Scroll to the bottom to show the new message
 }
 

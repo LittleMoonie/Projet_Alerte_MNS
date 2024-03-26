@@ -60,6 +60,7 @@ if (isset($_POST['mail']) && isset($_POST['password'])) {
                 /!\ <?= $errorMsg;?>
             </div>
         <?php } ?>
+        <a href="">Inscription</a>
     </form>
 </body>
 </html>
