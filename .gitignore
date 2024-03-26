@@ -1,3 +1,5 @@
 node_modules/
 admin/include/*
 .vscode/
+
+/public/src/chat/connection/*

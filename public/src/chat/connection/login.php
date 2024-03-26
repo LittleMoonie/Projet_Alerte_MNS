@@ -26,6 +26,7 @@ if (isset($_POST['mail']) && isset($_POST['password'])) {
             $_SESSION['mySession'] = "042";
             $_SESSION['user_mail'] = $userMail;
             $_SESSION['userId'] = $row['user_id'];
+            $_COOKIE['userId'] = $row['user_id'];
 
             header("Location:../chat.php");
             exit();
