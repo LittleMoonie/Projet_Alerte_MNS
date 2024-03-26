@@ -1,0 +1,39 @@
+.toggle-checkbox {
+  --toggle-width: 2.5em; /* Adjusted width for smaller size */
+  --toggle-height: 1.25em; /* Adjusted height for smaller size */
+  --ball-size: calc(var(--toggle-height) * 0.7); /* Ball size to fit inside toggle */
+  --ball-offset: calc((var(--toggle-height) - var(--ball-size)) / 2); /* Center the ball vertically */
+  --off-color: #f56565; /* Red for "off" state */
+  --on-color: #48bb78; /* Green for "on" state */
+  
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  width: var(--toggle-width);
+  height: var(--toggle-height);
+  background: var(--off-color); /* Start with red background */
+  border-radius: 99em;
+  position: relative;
+  cursor: pointer;
+  transition: background-color 0.4s; /* Smooth background transition */
+}
+
+.toggle-checkbox::before {
+  content: "";
+  width: var(--ball-size);
+  height: var(--ball-size);
+  position: absolute;
+  top: var(--ball-offset);
+  left: var(--ball-offset);
+  background-color: #fff; /* White ball */
+  border-radius: 50%;
+  transition: transform 0.4s; /* Smooth ball movement */
+}
+
+.toggle-checkbox:checked {
+  background-color: var(--on-color); /* Green background when checked */
+}
+
+.toggle-checkbox:checked::before {
+  transform: translateX(calc(var(--toggle-width) - var(--ball-size) - (var(--ball-offset) * 2))); /* Move ball to the right */
+}
