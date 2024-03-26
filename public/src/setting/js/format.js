@@ -34,7 +34,20 @@
       cancelLogout.addEventListener('click', function() {
       logoutModal.classList.add('hidden'); // Hide the modal on cancel
       });
-  
+      
+       // if pressing escape key, or clicking outside the modal, close it
+       window.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') {
+            logoutModal.classList.add('hidden');
+        }
+    });
+
+    window.addEventListener('click', function(e) {
+        if (e.target == logoutModal) {
+            logoutModal.classList.add('hidden');
+        }
+    });
+
       confirmLogout.addEventListener('click', function() {
       // Redirect to your logout script or perform AJAX logout
       window.location.href = 'logout.php'; // Adjust the path to your logout script
@@ -88,5 +101,5 @@
             modal.classList.add('hidden');
         });
       }
-      
+
     
