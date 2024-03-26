@@ -1,1 +1,1 @@
-<?php header('Location:/public/src/chat/chat.php') ?>
+<?php header('Location:/public/src/chat/chat.php') ?> 
