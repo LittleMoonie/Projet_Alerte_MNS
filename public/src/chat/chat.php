@@ -22,47 +22,11 @@ if (isset($_GET['channel'])) {
     <link href="https://fonts.googleapis.com/css2?family=MuseoModerno:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
 
     <!-- Custom css -->
-    <link rel="stylesheet" href="scss/style.css">
+    <link href="css/style.css" rel="stylesheet">
+    <link href="../home/css/output.css" rel="stylesheet">
 
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-      tailwind.config = {
-        theme: {
-          extend: {
-            colors: {
-              primary: '#151b35',
-              secondary: '#C0480C',
-              subtle_highlight: '#C9C9C9',
-              background_color: '#E8E3DC',
-              main_button: '#F05F16',
-              light_surface_text: '#402A1A',
-              dark_surface_text: '#F3F3F3'
-            },
-            fontFamily: {
-              titles: ['Lexend', 'sans-serif'],
-              paragraphs: ['Alata', 'sans-serif'],
-              logo: ['MuseoModerno', 'sans-serif']
-            },
-            screens: {
-              sm: '576px',
-              md: '768px',
-              lg: '992px',
-              xl: '1200px'
-            },
-            borderRadius: {
-                message_button: "10px" 
-            },
-            width: {
-              '380': '380px'
-            },
-            height: {
-              '80': '80px'
-            }
-          }
-        }
-      }
-    </script>
     <style>
       @import url('https://fonts.googleapis.com/css2?family=Lexend:wght@400;700&family=Alata&display=swap');
       
