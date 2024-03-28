@@ -50,7 +50,7 @@
 
       confirmLogout.addEventListener('click', function() {
       // Redirect to your logout script or perform AJAX logout
-      window.location.href = '../chat/connection/logout.php'; // Adjust the path to your logout script
+      window.location.href = 'logout.php'; // Adjust the path to your logout script
       });
       });
   

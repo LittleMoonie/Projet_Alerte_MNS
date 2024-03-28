@@ -1,8 +1,8 @@
 <?php
-$host = 'localhost'; // 5.250.177.216
+$host = 'localhost';
 $name = 'alerte-mns';
-$username = 'root'; // alerte-mns
-$password = ''; // 02AlertemnsLMR?!
+$username = 'alerte-mns';
+$password = '02AlertemnsLMR?!';
 
 try {        
     $db = new PDO("mysql:host=".$host.";dbname=".$name.";charset=utf8", $username, $password);
