@@ -7,6 +7,8 @@ if (isset($_GET['channel'])) {
   $stmt->execute([":channel_id" => $_GET['channel']]);
   $messages = $stmt->fetchAll();
 }
+
+
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -114,7 +116,7 @@ if (isset($_GET['channel'])) {
 
                   if ($message['message_sender_id'] == $_SESSION['userId']) { ?>
                     <div class="flex items-end space-x-2 justify-end">
-                      <div class="text-right">
+                      <div class="text-left">
                             <div class="text-light_surface_text font-medium"><?= $message['user_firstname']." ".$message['user_lastname']?></div>
                             <p class="bg-subtle_highlight text-light_surface_text text-lg font-medium rounded-message_button break-all p-2 max-w-md"><?= $message['message_content']?></p>
                             <p class="text-light_surface_text font-normal text-xs"><?= $timestamp?></p>
@@ -137,7 +139,6 @@ if (isset($_GET['channel'])) {
 
               <!-- Message input -->
               <div class="border-t border-subtle_highlight p-4 flex items-center">
-                <input type="hidden" name="channel" id="channelInput" value="<?= $_GET['channel']?>">
                   <textarea id="messageInput" placeholder="Message..." maxlength="2000" 
                       class="flex-1 p-2 rounded border border-subtle_highlight mr-2 resize-none overflow-hidden 
                       focus:outline-none focus:ring focus:border-blue-300 transition-all duration-300 ease-in-out"></textarea>
@@ -182,6 +183,9 @@ if (isset($_GET['channel'])) {
           </div>
     </div>
     <?php } ?>
+
+    <!-- Logout -->
+    <a href="../chat/connection/logout.php" class="fixed bottom-4 right-4 bg-main_button text-light_surface_text px-4 py-2 rounded">Logout</a>
 </body>
-<script src="js/index.js"></script>
+<script src="js/main.js"></script>
 </html>  

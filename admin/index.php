@@ -51,7 +51,6 @@
             <a class="bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 rounded me-2" href="./manage/user/index.php">User Management</a>
             <a class="bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 rounded me-2" href="./manage/group/index.php">Group Management</a>
             <a class="bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 rounded me-2" href="./manage/category/index.php">Category Management</a>
-            <a class="bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 rounded me-2" href="./manage/token/index.php">Token Management</a>
         </div>
     </main>
 </body>
