@@ -94,6 +94,7 @@ function chargeMessages() {
 function ajoutMessage() {
     let message = document.querySelector("#messageInput").value
     let channel = document.querySelector("#channelInput").value
+    let user = document.querySelector("#userInput").value
     
     // On vérifie si on a un message
     if (message != "") {
@@ -102,6 +103,7 @@ function ajoutMessage() {
         let donnees = {
             'message': message,
             'channel': channel,
+            'user': user,
             'timestamp': `${date.getFullYear()}-${date.getMonth()+1}-${date.getDate()} ${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`
         }
         
@@ -114,11 +116,8 @@ function ajoutMessage() {
         xmlhttp.onreadystatechange = function(){
             if (xmlhttp.readyState == 4) {
                 if(xmlhttp.status == 201) {
-                    // On a une réponse
-                    // On efface le champ texte
-                    document.querySelector("#messageInput").value = ""
+                    document.querySelector("#messageInput").value = "";
                 }else{
-                    // On reçoit une erreur, on l'affiche
                     let reponse = JSON.parse(xmlhttp.responseText)
                     alert(reponse.message)
                 }
@@ -128,7 +127,6 @@ function ajoutMessage() {
         // On ouvre la requête
         xmlhttp.open("POST", "ajax/ajoutMessage.php");
         
-        console.log(donneesJson)
         // On envoie la requête avec les données
         xmlhttp.send(donneesJson);
     }

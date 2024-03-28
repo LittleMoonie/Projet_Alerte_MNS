@@ -9,21 +9,19 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
 
         // On vérifie qu'il y a un message
         if(isset($donnees->message) && !empty($donnees->message)){
-            $sql = 'INSERT INTO `message` (`message_content`, `message_sender_id`, `message_channel_id`, `message_timestamp`, `message_file_type`) VALUES (:message, :user, :channel, :date, `text`)';
+            $sql = 'INSERT INTO `message` (`message_content`, `message_sender_id`, `message_channel_id`, `message_timestamp`, `message_file_type`) VALUES (:message, :user, :channel, :date, \'text\')';
 
             $requete = $db->prepare($sql);
-            // $requete->bindValue('message', $donnees->message, PDO::PARAM_STR);
-            // $requete->bindValue('user', $_SESSION['userId'], PDO::PARAM_INT);
-            // $requete->bindValue('channel', $donnees->channel, PDO::PARAM_INT);
-            // $requete->bindValue('channel', $donnees->timestamp, PDO::PARAM_STR);
 
-            if($requete->execute(['message'=> $donnees->message, 'user'=> $_SESSION['userId'], 'channel'=> $donnees->channel, 'date'=> $donnees->timestamp])){
+            if($requete->execute(['message'=> $donnees->message, 'user'=> $donnees->user, 'channel'=> $donnees->channel, 'date'=> $donnees->timestamp])){
                 http_response_code(201);
                 echo json_encode(['message' => 'Message enregistré']);
             }else{
                 http_response_code(400);
                 echo json_encode(['message' => 'Une erreur est survenue']);
             }
+
+            $requete->debugDumpParams();
         }else{
             // Le message est indéfini ou vide
             http_response_code(400);
