@@ -35,36 +35,4 @@
 
 .toggle-checkbox:checked::before {
   transform: translateX(calc(var(--toggle-width) - var(--ball-size) - var(--ball-offset) * 2)); /* Move ball to the right */
-}
-
-.profile-picture-container {
-  position: relative;
-  width: 96px; /* Adjust based on your needs */
-  height: 96px; /* Adjust based on your needs */
-  border-radius: 9999px;
-  overflow: hidden;
-}
-
-.profile-picture {
-  width: 100%;
-  height: auto;
-}
-
-.overlay {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: rgba(0, 0, 0, 0.5); /* Semi-transparent overlay */
-  color: #fff;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  opacity: 0;
-  transition: opacity 0.25s;
-}
-
-.profile-picture-container:hover .overlay {
-  opacity: 1;
 }/*# sourceMappingURL=style.css.map */

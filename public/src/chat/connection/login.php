@@ -38,8 +38,9 @@ if (isset($_POST['mail']) && isset($_POST['password'])) {
         $errorMsg = "Identifiant introuvable";
     }
 }
-?>
 
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>

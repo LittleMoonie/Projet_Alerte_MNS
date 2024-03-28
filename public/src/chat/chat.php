@@ -7,6 +7,8 @@ if (isset($_GET['channel'])) {
   $stmt->execute([":channel_id" => $_GET['channel']]);
   $messages = $stmt->fetchAll();
 }
+
+
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -22,11 +24,47 @@ if (isset($_GET['channel'])) {
     <link href="https://fonts.googleapis.com/css2?family=MuseoModerno:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
 
     <!-- Custom css -->
-    <link href="css/style.css" rel="stylesheet">
-    <link href="../home/css/output.css" rel="stylesheet">
+    <link rel="stylesheet" href="scss/style.css">
 
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              primary: '#151b35',
+              secondary: '#C0480C',
+              subtle_highlight: '#C9C9C9',
+              background_color: '#E8E3DC',
+              main_button: '#F05F16',
+              light_surface_text: '#402A1A',
+              dark_surface_text: '#F3F3F3'
+            },
+            fontFamily: {
+              titles: ['Lexend', 'sans-serif'],
+              paragraphs: ['Alata', 'sans-serif'],
+              logo: ['MuseoModerno', 'sans-serif']
+            },
+            screens: {
+              sm: '576px',
+              md: '768px',
+              lg: '992px',
+              xl: '1200px'
+            },
+            borderRadius: {
+                message_button: "10px" 
+            },
+            width: {
+              '380': '380px'
+            },
+            height: {
+              '80': '80px'
+            }
+          }
+        }
+      }
+    </script>
     <style>
       @import url('https://fonts.googleapis.com/css2?family=Lexend:wght@400;700&family=Alata&display=swap');
       
@@ -114,7 +152,7 @@ if (isset($_GET['channel'])) {
 
                   if ($message['message_sender_id'] == $_SESSION['userId']) { ?>
                     <div class="flex items-end space-x-2 justify-end">
-                      <div class="text-right">
+                      <div class="text-left">
                             <div class="text-light_surface_text font-medium"><?= $message['user_firstname']." ".$message['user_lastname']?></div>
                             <p class="bg-subtle_highlight text-light_surface_text text-lg font-medium rounded-message_button break-all p-2 max-w-md"><?= $message['message_content']?></p>
                             <p class="text-light_surface_text font-normal text-xs"><?= $timestamp?></p>
@@ -141,7 +179,6 @@ if (isset($_GET['channel'])) {
               <!-- Message input -->
               <div class="border-t border-subtle_highlight p-4 flex items-center">
                 <input type="hidden" name="channel" id="channelInput" value="<?= $_GET['channel']?>">
-                <input type="hidden" name="channel" id="userInput" value="<?= $_SESSION['userId']?>">
                   <textarea id="messageInput" placeholder="Message..." maxlength="2000" 
                       class="flex-1 p-2 rounded border border-subtle_highlight mr-2 resize-none overflow-hidden 
                       focus:outline-none focus:ring focus:border-blue-300 transition-all duration-300 ease-in-out"></textarea>
@@ -170,7 +207,7 @@ if (isset($_GET['channel'])) {
         ?>
           <div class="w-1/5 bg-primary text-dark_surface_text p-4 space-y-4">
             <!-- Profile Manager Page -->
-            <a href="../setting/userProfile.php"><i>User Profile</i></a>
+            <a href="../userProfile.php"><i>User Profile</i></a>
 
             <?php 
             foreach($recordset as $row) {
@@ -186,6 +223,9 @@ if (isset($_GET['channel'])) {
           </div>
     </div>
     <?php } ?>
+
+    <!-- Logout -->
+    <a href="../chat/connection/logout.php" class="fixed bottom-4 right-4 bg-main_button text-light_surface_text px-4 py-2 rounded">Logout</a>
 </body>
-<script src="js/index.js"></script>
+<script src="js/main.js"></script>
 </html>  
