@@ -49,7 +49,6 @@ if (isset($_FILES['file']) && $_FILES['file']['name'] != "") {
     $stmt = $db->prepare($sql);
     $stmt->execute([":name" => $filename, ":id" => $recordset['user_id']]);
 
-
     foreach ($tabTailles as $taille) {
         switch (strtolower($extension)) {
             case "gif":

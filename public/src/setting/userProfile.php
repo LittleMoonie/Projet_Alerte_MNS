@@ -80,6 +80,7 @@ $stmt = $db->prepare($sql);
 $stmt->execute([':userId' => $userId]);
 $recordset = $stmt->fetch();
 
+$userPicture = $recordset['user_picture'];
 $displayName = $recordset['user_firstname'] . ' ' . $recordset['user_lastname'];
 $userEmail = $recordset['user_mail'];
 $maskedPassword = str_repeat('*', 12);
