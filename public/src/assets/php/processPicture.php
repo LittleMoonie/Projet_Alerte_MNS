@@ -46,11 +46,8 @@ if (isset($_FILES['file']) && $_FILES['file']['name'] != "") {
     $filename .= ".".$extension;
 
     $sql = "UPDATE users SET user_picture = :name WHERE user_id = :id";
-
     $stmt = $db->prepare($sql);
-    $stmt->bindParam(":name", $filename);
-    $stmt->bindParam(":id", $recordset['user_id']);
-    $stmt->execute();
+    $stmt->execute([":name" => $filename, ":id" => $recordset['user_id']]);
 
     foreach ($tabTailles as $taille) {
         switch (strtolower($extension)) {
@@ -97,7 +94,7 @@ if (isset($_FILES['file']) && $_FILES['file']['name'] != "") {
         }
 
         $imgDest = imagecreatetruecolor($imgDestLargeur, $imgDestHauteur);
-
+        
         imagecopyresampled(
             $imgDest,
             $imgSource,
@@ -130,5 +127,6 @@ if (isset($_FILES['file']) && $_FILES['file']['name'] != "") {
 
     unlink($uploadPath . $filename);
 }
+header("Location:../../setting/userProfile.php");
 
 ?>
