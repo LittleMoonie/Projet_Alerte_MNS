@@ -1,5 +1,5 @@
 <?php include $_SERVER["DOCUMENT_ROOT"]."/public/src/chat/connection/protect.php"; 
-require_once $_SERVER["DOCUMENT_ROOT"]."/public/src/chat/connection/connect.php";
+require_once $_SERVER["DOCUMENT_ROOT"]."/admin/include/connect.php";
 
 ?>
 
