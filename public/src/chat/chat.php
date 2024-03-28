@@ -140,7 +140,7 @@ if (isset($_GET['channel'])) {
               </div>
 
               <!-- Messages area -->
-              <div id="messagesArea" class="flex-1 overflow-y-auto p-4 space-y-4" style="max-height: calc(100vh - 4rem);">
+              <!-- <div id="messagesArea" class="flex-1 overflow-y-auto p-4 space-y-4" style="max-height: calc(100vh - 4rem);">
                 <?php foreach ($messages as $message) {
                   $timestamp = $message['message_timestamp'];
 
@@ -169,11 +169,15 @@ if (isset($_GET['channel'])) {
                     </div>
                   <?php }
                 } ?>
+              </div> -->
+
+              <div id="messagesArea" class="flex-1 overflow-y-auto p-4 space-y-4" style="max-height: calc(100vh - 4rem);">
               </div>
 
               <!-- Message input -->
               <div class="border-t border-subtle_highlight p-4 flex items-center">
                 <input type="hidden" name="channel" id="channelInput" value="<?= $_GET['channel']?>">
+                <input type="hidden" name="channel" id="userInput" value="<?= $_SESSION['userId']?>">
                   <textarea id="messageInput" placeholder="Message..." maxlength="2000" 
                       class="flex-1 p-2 rounded border border-subtle_highlight mr-2 resize-none overflow-hidden 
                       focus:outline-none focus:ring focus:border-blue-300 transition-all duration-300 ease-in-out"></textarea>

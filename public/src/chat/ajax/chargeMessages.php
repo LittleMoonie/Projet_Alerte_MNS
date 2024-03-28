@@ -4,9 +4,9 @@ if($_SERVER['REQUEST_METHOD'] == 'GET'){
     if(isset($_GET['lastId'])){
         $lastId = (int)strip_tags($_GET['lastId']);
 
-        $filtre = ($lastId > 0) ? " WHERE `messages`.`id` > $lastId" : '';
+        $filtre = ($lastId > 0) ? " WHERE `message_id` > $lastId" : '';
 
-        $sql = 'SELECT `message_id`, `message_content`, `message_timestamp`, `user_lastname`, `user_firstname` FROM `message` LEFT JOIN `users` ON `message_user_id` = `user_id`'.$filtre.' ORDER BY `id` DESC LIMIT 5';
+        $sql = 'SELECT `message_id`, `message_content`, `message_timestamp`, `message_sender_id`, `user_lastname`, `user_firstname`, `user_picture` FROM `message` LEFT JOIN `users` ON `message_sender_id` = `user_id`'.$filtre.' ORDER BY `message_id` DESC LIMIT 50';
         $requete = $db->query($sql);
         $messages = $requete->fetchAll();
 
