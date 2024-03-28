@@ -1,5 +1,5 @@
 <?php include $_SERVER["DOCUMENT_ROOT"]."/public/src/chat/connection/protect.php"; 
-require_once $_SERVER["DOCUMENT_ROOT"]."/public/src/chat/connection/connect.php";
+require_once $_SERVER["DOCUMENT_ROOT"]."/admin/include/connect.php";
 if (isset($_POST['firstName']) && isset($_POST['lastName']) && isset($_SESSION['userId'])) {
     $userId = $_SESSION['userId'];
     $firstName = filter_var($_POST['firstName']);
@@ -75,11 +75,12 @@ if (isset($_POST['currentPassword']) && isset($_POST['newPassword']) && isset($_
 }
 
 $userId = $_SESSION['userId'];
-$sql = "SELECT user_firstname, user_lastname, user_mail, user_password FROM users WHERE user_id = :userId";
+$sql = "SELECT user_firstname, user_lastname, user_mail, user_password, user_picture FROM users WHERE user_id = :userId";
 $stmt = $db->prepare($sql);
 $stmt->execute([':userId' => $userId]);
 $recordset = $stmt->fetch();
 
+$userPicture = $recordset['user_picture'];
 $displayName = $recordset['user_firstname'] . ' ' . $recordset['user_lastname'];
 $userEmail = $recordset['user_mail'];
 $maskedPassword = str_repeat('*', 12);
@@ -106,7 +107,7 @@ $maskedPassword = str_repeat('*', 12);
         <!-- Left Sidebar -->
         <div class="w-1/5 bg-primary p-4 space-y-4">
             <div class="mb-6">
-                <img src="https://via.placeholder.com/150" alt="Logo or Avatar" class="w-32 h-32 mx-auto rounded-full"> <!-- Placeholder for Logo or User Avatar -->
+                <img src=<?= "../../../upload/lg_".$userPicture?> alt="Logo or Avatar" class="w-32 h-32 mx-auto rounded-full"> <!-- Placeholder for Logo or User Avatar -->
             </div>
             <div class="flex flex-col">
                 <a href="#" data-target="profileSection" class="sidebar-link text-secondary hover:text-white p-2 rounded transition duration-300 ease-in-out">Mon Compte</a>
@@ -135,7 +136,7 @@ $maskedPassword = str_repeat('*', 12);
                     <!-- Profile Content -->
                     <div class="flex-none">
                         <!-- User image from the database -->
-                        <img src="https://via.placeholder.com/150" alt="User Profile" class="w-24 h-24 rounded-full">
+                        <img src=<?= "../../../upload/md_".$userPicture?> alt="User Profile" class="w-24 h-24 rounded-full">
                     </div>
 
                     <!-- User Information Section -->

@@ -1,5 +1,5 @@
 <?php include $_SERVER["DOCUMENT_ROOT"]."/public/src/chat/connection/protect.php"; 
-require_once $_SERVER["DOCUMENT_ROOT"]."/public/src/chat/connection/connect.php";
+require_once $_SERVER["DOCUMENT_ROOT"]."/admin/include/connect.php";
 
 $sql = "SELECT user_lastname, user_id FROM users WHERE user_id = :id";
 $stmt = $db->prepare($sql);
@@ -37,13 +37,20 @@ if (isset($_FILES['file']) && $_FILES['file']['name'] != "") {
     );
 
     $tabTailles = [
-        /*["prefix" => "xl", "largeur" => 1200, "hauteur" => 900],
-        ["prefix" => "lg", "largeur" => 800, "hauteur" => 600],
-        ["prefix" => "md", "largeur" => 400, "hauteur" => 400],*/
-        ["prefix" => "sm", "largeur" => 40, "hauteur" => 40],
+        /*["prefix" => "xl", "largeur" => 1200, "hauteur" => 900],*/
+        ["prefix" => "lg", "largeur" => 128, "hauteur" => 128],
+        ["prefix" => "md", "largeur" => 96, "hauteur" => 96],
+        ["prefix" => "sm", "largeur" => 40, "hauteur" => 40]
     ];
 
     $filename .= ".".$extension;
+
+    $sql = "UPDATE users SET user_picture = :name WHERE user_id = :id";
+
+    $stmt = $db->prepare($sql);
+    $stmt->bindParam(":name", $filename);
+    $stmt->bindParam(":id", $recordset['user_id']);
+    $stmt->execute();
 
     foreach ($tabTailles as $taille) {
         switch (strtolower($extension)) {
@@ -59,14 +66,6 @@ if (isset($_FILES['file']) && $_FILES['file']['name'] != "") {
                 break;
             default:
                 unlink($uploadPath . $filename);
-                showError("Format de fichier non autorisé");
-                $sql = "UPDATE table_product SET product_image=null
-                WHERE product_id = :product_id";
-
-                $stmt = $db->prepare($sql);
-                $stmt->bindValue(":product_id", $_POST['product_id'] > 0 ? $_POST['product_id'] : $db->lastInsertId());
-                $stmt->execute();
-                exit();
         }
 
         $sizes = getimagesize($uploadPath . $filename);
