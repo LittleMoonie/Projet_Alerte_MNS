@@ -1,5 +1,5 @@
 <?php include $_SERVER["DOCUMENT_ROOT"]."/public/src/chat/connection/protect.php"; 
-require_once $_SERVER["DOCUMENT_ROOT"]."/admin/include/connect.php";
+require_once $_SERVER["DOCUMENT_ROOT"]."/public/src/chat/connection/connect.php";
 if (isset($_POST['firstName']) && isset($_POST['lastName']) && isset($_SESSION['userId'])) {
     $userId = $_SESSION['userId'];
     $firstName = filter_var($_POST['firstName']);
@@ -75,7 +75,7 @@ if (isset($_POST['currentPassword']) && isset($_POST['newPassword']) && isset($_
 }
 
 $userId = $_SESSION['userId'];
-$sql = "SELECT user_firstname, user_lastname, user_mail, user_password, user_picture FROM users WHERE user_id = :userId";
+$sql = "SELECT user_firstname, user_lastname, user_mail, user_password FROM users WHERE user_id = :userId";
 $stmt = $db->prepare($sql);
 $stmt->execute([':userId' => $userId]);
 $recordset = $stmt->fetch();
@@ -83,9 +83,8 @@ $recordset = $stmt->fetch();
 $displayName = $recordset['user_firstname'] . ' ' . $recordset['user_lastname'];
 $userEmail = $recordset['user_mail'];
 $maskedPassword = str_repeat('*', 12);
-$userPicture = $recordset['user_picture'];
-?>
 
+?>
 <!DOCTYPE html>
 <html lang="fr">
 
@@ -105,35 +104,17 @@ $userPicture = $recordset['user_picture'];
 <body class="bg-background_color text-light_surface_text font-paragraphs">
     <div class="flex h-screen overflow-hidden">
         <!-- Left Sidebar -->
-        <div class="w-1/5 bg-primary p-4 flex flex-col justify-between h-full">
-            <div>
-                <div class="mb-6">
-                    <!-- Get image path from db -->
-                    <?php
-            $sql = "SELECT user_firstname, user_lastname, user_mail, user_id FROM users WHERE user_id = :id";
-            $stmt = $db->prepare($sql);
-            $stmt->execute([":id" => $_SESSION['userId']]);
-            $recordset = $stmt->fetch();
-            ?>
-                    <img src="<?= htmlspecialchars("../../../upload/lg_".$userPicture) ?>" alt="User Profile" class="w-24 h-24 mx-auto rounded-full">
-                </div>
-                <div class="flex flex-col space-y-4">
-                    <a href="#" data-target="profileSection" class="sidebar-link text-secondary hover:text-white p-2 rounded transition duration-300 ease-in-out">Mon Compte</a>
-                    <a href="#" data-target="notificationsSettingsSection" class="sidebar-link text-secondary hover:text-white p-2 rounded transition duration-300 ease-in-out">Notifications</a>
-                    <a href="#" data-target="whatsNewSection" class="sidebar-link text-secondary hover:text-white p-2 rounded transition duration-300 ease-in-out">Nouveautés</a>
-                </div>
+        <div class="w-1/5 bg-primary p-4 space-y-4">
+            <div class="mb-6">
+                <img src="https://via.placeholder.com/150" alt="Logo or Avatar" class="w-32 h-32 mx-auto rounded-full"> <!-- Placeholder for Logo or User Avatar -->
             </div>
-            <!-- Space for separation, ensuring items are at the bottom -->
-            <div>
-                <hr class="my-4 border-2 border-orange-500">
-                <div class="grid grid-cols-2 gap-2">
-                    <a href="../chat/chat.php" class="sidebar-link text-secondary hover:text-white p-2 rounded transition duration-300 ease-in-out flex justify-center items-center">Retour au Chat</a>
-                    <a href="#" class="logout-link text-secondary hover:text-white p-2 rounded transition duration-300 ease-in-out flex justify-center items-center">Déconnexion</a>
-                </div>
+            <div class="flex flex-col">
+                <a href="#" data-target="profileSection" class="sidebar-link text-secondary hover:text-white p-2 rounded transition duration-300 ease-in-out">Mon Compte</a>
+                <a href="#" data-target="notificationsSettingsSection" class="sidebar-link text-secondary hover:text-white p-2 rounded transition duration-300 ease-in-out">Notifications</a>
+                <a href="#" data-target="whatsNewSection" class="sidebar-link text-secondary hover:text-white p-2 rounded transition duration-300 ease-in-out">Nouveautés</a>
+                <a href="#" class="logout-link text-secondary hover:text-white p-2 rounded transition duration-300 ease-in-out">Déconnexion</a>
             </div>
         </div>
-
-
 
         <!-- Logout Confirmation Modal -->
         <div id="logoutModal" class="hidden fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center">
@@ -154,18 +135,11 @@ $userPicture = $recordset['user_picture'];
                     <!-- Profile Content -->
                     <div class="flex-none">
                         <!-- User image from the database -->
-                        <div class="profile-picture-container mx-auto">
-                            <img src="<?= htmlspecialchars("../../../upload/md_".$userPicture) ?>" alt="User Profile" class="profile-picture">
-                            <!-- Form for image upload -->
-                            <form action="../assets/php/processPicture.php" method="post" enctype="multipart/form-data">
-                                <input type="file" name="file" id="fileInput" onchange="this.form.submit();" accept="image/png, image/jpeg, image/jpg, image/gif" class="hidden">
-                                <label for="fileInput" class="overlay  text-secondary">Changer</label>
-                            </form>
-                        </div>
-
+                        <img src="https://via.placeholder.com/150" alt="User Profile" class="w-24 h-24 rounded-full">
                     </div>
+
                     <!-- User Information Section -->
-                    <div class="ml-4 flex-grow border-l-2 border-solid pl-4">
+                    <div class="ml-4 flex-grow">
                         <h1 class="text-2xl font-bold mb-4">Profil Utilisateur</h1>
 
                         <!-- Display Name -->
@@ -202,7 +176,7 @@ $userPicture = $recordset['user_picture'];
                         <div class="mb-4">
                             <label class="font-semibold">Email:</label>
                             <div class="flex justify-between items-center">
-                                <p><?= $userEmail ?></p>
+                                <p><?= htmlspecialchars($userEmail); ?></p>
                                 <button id="updateEmailBtn" class="edit-btn text-secondary hover:underline" data-target="editEmailModal">Modifier</button>
                             </div>
                         </div>
