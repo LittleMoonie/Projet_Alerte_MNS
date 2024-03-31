@@ -75,6 +75,9 @@ function chargeMessages() {
                     }
                     // On met à jour l'id
                     lastId = message.message_id
+
+                    const messagesArea = document.querySelector("#messagesArea");
+                    messagesArea.scrollTop = messagesArea.scrollHeight; // Scroll to the bottom to show the new message
                 }
             }
             else{
@@ -95,9 +98,9 @@ function ajoutMessage() {
     let message = document.querySelector("#messageInput").value
     let channel = document.querySelector("#channelInput").value
     let user = document.querySelector("#userInput").value
-    
+
     // On vérifie si on a un message
-    if (message != "") {
+    if (message.trim() != "") { //     message != "" && message != "\n"
         const date = new Date();
         
         let donnees = {
@@ -129,5 +132,8 @@ function ajoutMessage() {
         
         // On envoie la requête avec les données
         xmlhttp.send(donneesJson);
+    }
+    else {
+        document.querySelector("#messageInput").value = ""
     }
 }

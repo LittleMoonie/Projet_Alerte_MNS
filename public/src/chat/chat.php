@@ -131,60 +131,28 @@ if (isset($_GET['channel'])) {
         ?>
         <!-- Chat section -->
         <div class="flex-1 flex flex-col bg-background_color">
-            <!-- Chat header -->
-              <div class="p-4 border-b border-subtle_highlight flex justify-between items-center">
-                  <div class="text-light_surface_text text-lg font-bold"># <?= ucfirst($recordset1['channel_name']) ?> | <?= $recordset1['category_name'] ?></div>
-                  <div class="space-x-2">
-                      <!-- Header icons -->
-                  </div>
-              </div>
+          <!-- Chat header -->
+            <div class="p-4 border-b border-subtle_highlight flex justify-between items-center">
+                <div class="text-light_surface_text text-lg font-bold"># <?= ucfirst($recordset1['channel_name']) ?> | <?= $recordset1['category_name'] ?></div>
+                <div class="space-x-2">
+                    <!-- Header icons -->
+                </div>
+            </div>
 
-              <!-- Messages area -->
-              <!-- <div id="messagesArea" class="flex-1 overflow-y-auto p-4 space-y-4" style="max-height: calc(100vh - 4rem);">
-                <?php foreach ($messages as $message) {
-                  $timestamp = $message['message_timestamp'];
+            <!-- Messages area (loaded by the ajax socket) -->
+            <div id="messagesArea" class="flex-1 overflow-y-auto p-4 space-y-4" style="max-height: calc(100vh - 4rem);">
+            </div>
 
-                  $timestamp = explode("-", explode(" ", $timestamp)[0])[2]."/".explode("-", explode(" ", $timestamp)[0])[1]."/".explode("-", explode(" ", $timestamp)[0])[0].
-                              " - ".
-                              explode(":", explode(" ", $timestamp)[1])[0].":".explode(":", explode(" ", $timestamp)[1])[1];
-
-                  if ($message['message_sender_id'] == $_SESSION['userId']) { ?>
-                    <div class="flex items-end space-x-2 justify-end">
-                      <div class="text-right">
-                            <div class="text-light_surface_text font-medium"><?= $message['user_firstname']." ".$message['user_lastname']?></div>
-                            <p class="bg-subtle_highlight text-light_surface_text text-lg font-medium rounded-message_button break-all p-2 max-w-md"><?= $message['message_content']?></p>
-                            <p class="text-light_surface_text font-normal text-xs"><?= $timestamp?></p>
-                        </div>
-                        <img src="<?= '../../../upload/sm_'.$message['user_picture']?>" alt="Avatar" class="h-10 w-10 rounded-full mb-4">
-                    </div>
-                  <?php }
-                  else { ?> 
-                    <div class="flex items-start space-x-2">
-                        <img src="<?= '../../../upload/sm_'.$message['user_picture']?>" alt="Avatar" class="h-10 w-10 rounded-full mb-4">
-                        <div class="text-left">
-                            <div class="text-light_surface_text font-medium"><?= $message['user_firstname']." ".$message['user_lastname']?></div>
-                            <p class="bg-subtle_highlight text-light_surface_text text-lg font-medium rounded-message_button break-all p-2 max-w-md"><?= $message['message_content']?></p>
-                            <p class="text-light_surface_text font-normal text-xs"><?= $timestamp?></p>
-                        </div>
-                    </div>
-                  <?php }
-                } ?>
-              </div> -->
-
-              <div id="messagesArea" class="flex-1 overflow-y-auto p-4 space-y-4" style="max-height: calc(100vh - 4rem);">
-              </div>
-
-              <!-- Message input -->
-              <div class="border-t border-subtle_highlight p-4 flex items-center">
-                <input type="hidden" name="channel" id="channelInput" value="<?= $_GET['channel']?>">
-                <input type="hidden" name="channel" id="userInput" value="<?= $_SESSION['userId']?>">
-                  <textarea id="messageInput" placeholder="Message..." maxlength="2000" 
-                      class="flex-1 p-2 rounded border border-subtle_highlight mr-2 resize-none overflow-hidden 
-                      focus:outline-none focus:ring focus:border-blue-300 transition-all duration-300 ease-in-out"></textarea>
-                  <div id="userList" class="absolute z-10 w-full bg-white border rounded shadow-lg hidden"></div>
-                  <button id="sendButton" class="bg-main_button text-light_surface_text px-4 py-2 rounded">Send</button>
-              </div>
-              
+            <!-- Message input -->
+            <div class="border-t border-subtle_highlight p-4 flex items-center">
+              <input type="hidden" name="channel" id="channelInput" value="<?= $_GET['channel']?>">
+              <input type="hidden" name="channel" id="userInput" value="<?= $_SESSION['userId']?>">
+              <textarea id="messageInput" placeholder="Message..." maxlength="2000" 
+                  class="flex-1 p-2 rounded border border-subtle_highlight mr-2 resize-none overflow-hidden 
+                  focus:outline-none focus:ring focus:border-blue-300 transition-all duration-300 ease-in-out"></textarea>
+              <div id="userList" class="absolute z-10 w-full bg-white border rounded shadow-lg hidden"></div>
+              <button id="sendButton" class="bg-main_button text-light_surface_text px-4 py-2 rounded">Send</button>
+            </div>
         </div>
 
         <!-- Right sidebar -->
