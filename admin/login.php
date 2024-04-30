@@ -7,7 +7,7 @@ if (isset($_POST['mail']) && isset($_POST['password'])) {
     $userPwd = $_POST['password'];
 
     $sql = "SELECT * FROM users 
-        INNER JOIN userXgroup ON user_id = uxg_user_id 
+        INNER JOIN userxgroup ON user_id = uxg_user_id 
         INNER JOIN user_group ON uxg_group_id = group_id
         WHERE user_mail = :mail AND group_name='admin'";
     

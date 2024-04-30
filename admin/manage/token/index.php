@@ -1,6 +1,6 @@
 <?php include $_SERVER["DOCUMENT_ROOT"]."/admin/include/connect.php";
 
-$sql = "SELECT * FROM user_group ORDER BY group_name ASC";
+$sql = "SELECT * FROM token ORDER BY token_id ASC";
 $stmt = $db->prepare($sql);
 $stmt->execute();
 $recordset = $stmt->fetchAll();
@@ -61,18 +61,18 @@ $recordset = $stmt->fetchAll();
         <table class="table-auto w-full text-left whitespace-no-wra">
             <tr>
                 <th class="px-4 py-2">Contenu</th>
-                <th class="px-4 py-2">Utilisateur relié</th>
+                <th class="px-4 py-2">Prénom</th>
+                <th class="px-4 py-2">Nom</th>
                 <th class="px-4 py-2">Utilisation restante</th>
-                <th class="px-4 py-2">Modifier</th>
                 <th class="px-4 py-2">Supprimer</th>
             </tr>
             <?php foreach ($recordset as $row) {?>
                 <tr>
                     <td class="border px-4 py-2"><?= $row["token_content"];?></td>
-                    <td class="border px-4 py-2"><?= $row["token_user_id"];?></td>
-                    <td class="border px-4 py-2"><?= $row["token_used"] ? '1' : '0';?></td>
-                    <td class="border px-4 py-2"><a class="no-underline" href="../userXgroup/form.php?id<?= $row['token_id']; ?>" title="Modifier token">📝</a></td>
-                    <td class="border px-4 py-2"><a class="no-underline" href="../userXgroup/delete.php?id=<?= $row['token_id'];?>" title="Supprimer token">🗑</a></td>
+                    <td class="border px-4 py-2"><?= $row["token_firstname"];?></td>
+                    <td class="border px-4 py-2"><?= $row["token_lastname"];?></td>
+                    <td class="border px-4 py-2"><?= $row["token_use"];?></td>
+                    <td class="border px-4 py-2"><a class="no-underline" href="../token/delete.php?id=<?= $row['token_id'];?>" title="Supprimer token">🗑</a></td>
                 </tr>
             <?php }?>
         </table>
