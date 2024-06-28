@@ -15,6 +15,11 @@ if(isset($_GET['id']) && $_GET['id'] > 0) {
         $tokenLastname = $row['token_lastname'];
     }
 }
+
+$sql = "SELECT * FROM user_group ORDER BY group_id ASC";
+$stmt = $db->prepare($sql);
+$stmt->execute();
+$groupRecordset = $stmt->fetchAll();
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -66,23 +71,21 @@ if(isset($_GET['id']) && $_GET['id'] > 0) {
     <form action="process.php" method="POST">
         <input type="hidden" name="id" value="<?=$tokenId?>"/>
         <br/>Utilisateur relié<br/>
-        <br/>Prénom<br/>
-        <input type="text" name="firstname" class="border border-gray-300" placeholder="Prénom" value="<?=$tokenFirstname?>"/>
-        <br/>Nom<br/>
-        <input type="text" name="lastname" class="border border-gray-300" placeholder="Nom" value="<?=$tokenLastname?>"/>
-        <br/>Groupes à ajouter<br/>
-        <?php 
-        $sql = "SELECT * FROM user_group ORDER BY group_id ASC";
-        $stmt = $db->prepare($sql);
-        $stmt->execute();
-        $recordset = $stmt->fetchAll();
-        
-        foreach ($recordset as $row) {?>
-            <div>
-                <input type="checkbox" id="<?= $row['group_id']?>" name="token_group[]" value="<?= $row['group_id']?>"/>
-                <label for="<?= $row['group_id']?>"><?= $row['group_name']?></label>
-            </div>
-        <?php }?>
+        <label for="firstname">Prénom</label>
+        <input type="text" name="firstname" id="firstname" class="border border-gray-300" placeholder="Prénom" value="<?=$tokenFirstname?>"/>
+        <br/>
+        <label for="lastname">Nom</label>
+        <input type="text" name="lastname" id="lastname" class="border border-gray-300" placeholder="Nom" value="<?=$tokenLastname?>"/>
+        <br/><br/>Groupes à ajouter<br/>
+        <div class="border border-gray-200 max-h-16 overflow-y-scroll w-64">
+            <?php 
+            foreach ($groupRecordset as $row) {?>
+                <div>
+                    <input type="checkbox" id="<?= $row['group_id']?>" name="token_group[]" value="<?= $row['group_id']?>"/>
+                    <label for="<?= $row['group_id']?>"><?= $row['group_name']?></label>
+                </div>
+            <?php }?>
+        </div>
         <input type="submit" name="submit" class="my-2 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"/>
     </form>
 </body>
