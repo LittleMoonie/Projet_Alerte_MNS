@@ -123,7 +123,7 @@ if (isset($_GET['channel'])) {
             </div>
         </div>
         <div class="space-y-2">
-            <a href="#" id="userProfileButton" class="bg-secondary text-dark_surface_text px-4 py-2 rounded block text-center"><i class="fas fa-user"></i> Profil</a>
+            <a href="../setting/userProfile.php" id="userProfileButton" class="bg-secondary text-dark_surface_text px-4 py-2 rounded block text-center"><i class="fas fa-user"></i> Profil</a>
             <a href="../chat/connection/logout.php" class="bg-main_button text-dark_surface_text px-4 py-2 rounded block text-center">Déconnexion</a>
         </div>
     </div>
@@ -208,7 +208,7 @@ if (isset($_GET['channel'])) {
     </div>
     
     <!-- External JS file -->
-    <script src="https://cdn.jsdelivr.net/npm/emoji-picker-element@1.5.3/build/emoji-picker-element.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/emoji-picker-element@1.21.3/index.js  "></script>
     <script src="js/main.js"></script>
 </body>
 <script src="js/index.js"></script>
