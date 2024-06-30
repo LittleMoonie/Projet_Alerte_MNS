@@ -20,7 +20,7 @@ if(isset($_POST["mail"]) && isset($_POST["password"]) && isset($_POST["token"]))
 
         $sql = "INSERT INTO users (user_lastname, user_firstname, user_mail, user_password, user_picture) VALUES (:lastname, :firstname, :mail, :password, :picture)";
         $stmt = $db->prepare($sql);
-        $stmt->execute([":lastname"=>$row['token_lastname'], ":firstname"=>$row['token_firstname'], ":mail"=>$_POST['mail'], ":password"=>password_hash($_POST['password']), ":picture"=>$_POST['picture']]);
+        $stmt->execute([":lastname"=>$row['token_lastname'], ":firstname"=>$row['token_firstname'], ":mail"=>$_POST['mail'], ":password"=>password_hash($_POST['password'], PASSWORD_DEFAULT), ":picture"=>$_POST['picture']]);
         }
     }
 }
