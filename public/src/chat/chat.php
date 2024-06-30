@@ -5,10 +5,10 @@ require_once $_SERVER["DOCUMENT_ROOT"] . "/admin/include/connect.php";
 // Fetch messages if a channel is selected
 $messages = [];
 if (isset($_GET['channel'])) {
-    $sql = "SELECT * FROM message INNER JOIN users ON user_id = message_sender_id WHERE message_channel_id = :channel_id";
-    $stmt = $db->prepare($sql);
-    $stmt->execute([":channel_id" => htmlspecialchars($_GET['channel'])]);
-    $messages = $stmt->fetchAll();
+  $sql = "SELECT * FROM message INNERJOIN users ON user_id = message_sender_id WHERE message_channel_id = :channel_id";
+  $stmt = $db->prepare($sql);
+  $stmt->execute([":channel_id" => htmlspecialchars($_GET['channel'])]);
+  $messages = $stmt->fetchAll();
 }
 
 // Fetch categories and channels the user belongs to
@@ -49,7 +49,7 @@ if (isset($_GET['channel'])) {
             WHERE category_id = (SELECT channel_category_id FROM channel WHERE channel_id = :channel_id)
             ORDER BY group_name;";
     $stmt = $db->prepare($sql);
-    $stmt->execute([":channel_id" => htmlspecialchars($_GET['channel'])]);
+    $stmt->execute([":channel_id" => $_GET['channel']]);
     $userList = $stmt->fetchAll();
 }
 ?>
@@ -110,23 +110,29 @@ if (isset($_GET['channel'])) {
         <div>
             <div class="text-white text-lg font-bold mb-4">MNS</div>
             <div class="space-y-2">
+                <!-- Sidebar items -->
                 <?php 
-                foreach ($categories as $category => $channels) {
-                    echo "<div class='text-secondary text-lg font-bold block'>$category</div>";
-                    foreach ($channels as $channelId => $channel) {
-                        echo "<a href='?channel=$channelId' class='text-light_surface_text hover:text-white block ms-4'>$channel</a>";
+                    foreach ($categories as $category => $channels) {
+                        echo "<div class='text-secondary text-lg font-bold block'>$category</div>";
+                        foreach ($channels as $channelId => $channel) {
+                            echo "<a href='?channel=$channelId' class='text-light_surface_text hover:text-white block ms-4'>$channel</a>";
+                        }
                     }
-                }
-                ?>
+                  ?>
             </div>
+        </div>
+        <!-- Logout Button -->
+        <div class="mt-auto">
+            <a href="../setting/userProfile.php" class="block text-light_surface_text hover:text-white p-2 rounded text-center">User Profile</a>
+            <a href="../chat/connection/logout.php" class="block bg-main_button text-light_surface_text hover:bg-secondary p-2 rounded text-center mt-4">Logout</a>
         </div>
     </div>
 
     <?php if (isset($_GET['channel'])) { 
-      $sql1 = "SELECT * FROM channel INNER JOIN category ON category_id = channel_category_id WHERE channel_id = :channel";
-      $stmt1 = $db->prepare($sql1);
-      $stmt1->execute([":channel" => htmlspecialchars($_GET['channel'])]);
-      $recordset1 = $stmt1->fetch();
+        $sql1 = "SELECT * FROM channel INNER JOIN category ON category_id = channel_category_id WHERE channel_id = :channel";
+        $stmt1 = $db->prepare($sql1);
+        $stmt1->execute([":channel" => htmlspecialchars($_GET['channel'])]);
+        $recordset1 = $stmt1->fetch();
     ?>
     <!-- Chat section -->
     <div class="flex-1 flex flex-col bg-background_color">
@@ -134,7 +140,9 @@ if (isset($_GET['channel'])) {
         <div class="p-4 border-b border-subtle_highlight flex justify-between items-center">
             <div class="text-light_surface_text text-lg font-bold"># <?= ucfirst(htmlspecialchars($recordset1['channel_name'])) ?> | <?= htmlspecialchars($recordset1['category_name']) ?></div>
             <div class="space-x-2">
-                <!-- Header icons -->
+                <button id="toggleUsersButton" class="text-light_surface_text hover:text-white">
+                    <i class="fas fa-users"></i>
+                </button>
             </div>
         </div>
 
@@ -150,12 +158,10 @@ if (isset($_GET['channel'])) {
                 class="flex-1 p-2 rounded border border-subtle_highlight mr-2 resize-none overflow-hidden 
                 focus:outline-none focus:ring focus:border-blue-300 transition-all duration-300 ease-in-out"></textarea>
             <div id="userList" class="absolute z-10 w-full bg-white border rounded shadow-lg hidden"></div>
-            <button id="sendButton" class="bg-main_button text-light_surface_text px-4 py-2 rounded">Send</button>
-            <button id="toggleUsersButton" class="bg-secondary text-light_surface_text px-4 py-2 rounded ml-2">Users</button>
-            <emoji-picker></emoji-picker>
+            <button id="sendButton" class="bg-main_button text-light_surface_text px-4 py-2 rounded"><i class="fas fa-paper-plane"></i></button>
+            <button id="uploadButton" class="bg-main_button text-light_surface_text px-4 py-2 rounded ml-2"><i class="fas fa-upload"></i></button>
             <input type="file" id="fileInput" class="hidden" />
-            <button id="uploadButton" class="bg-main_button text-light_surface_text px-4 py-2 rounded ml-2">Upload</button>
-            <button id="gifButton" class="bg-main_button text-light_surface_text px-4 py-2 rounded ml-2">GIF</button>
+            <button id="gifButton" class="bg-main_button text-light_surface_text px-4 py-2 rounded ml-2"><i class="fas fa-image"></i></button>
             <div id="gifContainer" class="hidden">
                 <input type="text" id="gifSearch" placeholder="Search GIFs" class="p-2 rounded border border-subtle_highlight mr-2" />
                 <div id="gifResults" class="flex flex-wrap space-x-2 mt-2"></div>
@@ -165,26 +171,25 @@ if (isset($_GET['channel'])) {
 
     <!-- Right sidebar -->
     <div id="rightSidebar" class="w-1/5 bg-primary text-dark_surface_text p-4 space-y-4 hidden">
-        <a href="../setting/userProfile.php"><i>User Profile</i></a>
-        <?php
-        foreach ($userList as $user) {
-            $groupname = htmlspecialchars($user['group_name']);
-            $username = htmlspecialchars($user['user_firstname']) . ' ' . htmlspecialchars($user['user_lastname']);
-            $userId = htmlspecialchars($user['user_id']);
-            $userMail = htmlspecialchars($user['user_mail']);
-            $userPicture = htmlspecialchars($user['user_picture']);
-
-            echo "<div class='group flex items-center space-x-2 cursor-pointer' data-user-id='$userId' data-user-mail='$userMail' data-user-picture='$userPicture'>";
-            echo "<img src='../../../upload/sm_$userPicture' alt='Avatar' class='h-10 w-10 rounded-full'>";
-            echo "<div class='text-light_surface_text'>$username</div>";
-            echo "</div>";
-        }
-        ?>
+        <?php 
+        $groupname = "";
+        foreach($userList as $user) {
+            if ($groupname != $user['group_name']) { ?>
+                <div class="text-secondary text-lg font-bold capitalize mb-4"><?= htmlspecialchars($user['group_name']) ?></div>
+            <?php }
+            ?>
+            <div class="right-sidebar space-y-2 group cursor-pointer" data-user-id="<?= htmlspecialchars($user['user_id']) ?>" data-user-mail="<?= htmlspecialchars($user['user_mail']) ?>" data-user-name="<?= htmlspecialchars($user['user_firstname'] . ' ' . $user['user_lastname']) ?>" data-user-picture="<?= htmlspecialchars($user['user_picture']) ?>">
+                <?= htmlspecialchars($user['user_lastname']) ?> <?= htmlspecialchars($user['user_firstname']) ?>
+            </div>
+            <?php
+            $groupname = $user['group_name'];
+        } ?>
     </div>
     <?php } ?>
 
     <!-- External JS file -->
-    <script src="js/index.js"></script>
+    <script src="js/main.js"></script>
 </body>
 <script src="https://cdn.jsdelivr.net/npm/emoji-picker-element@1.5.3/build/emoji-picker-element.js"></script>
+<script src="js/index.js"></script>
 </html>  
