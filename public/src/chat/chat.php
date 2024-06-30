@@ -5,7 +5,7 @@ require_once $_SERVER["DOCUMENT_ROOT"] . "/admin/include/connect.php";
 // Fetch messages if a channel is selected
 $messages = [];
 if (isset($_GET['channel'])) {
-  $sql = "SELECT * FROM message INNERJOIN users ON user_id = message_sender_id WHERE message_channel_id = :channel_id";
+  $sql = "SELECT * FROM message INNER JOIN users ON user_id = message_sender_id WHERE message_channel_id = :channel_id";
   $stmt = $db->prepare($sql);
   $stmt->execute([":channel_id" => htmlspecialchars($_GET['channel'])]);
   $messages = $stmt->fetchAll();
@@ -61,6 +61,7 @@ if (isset($_GET['channel'])) {
     <title>Metz Numeric School</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=MuseoModerno:wght@400;700&family=Lexend:wght@400;700&family=Alata&display=swap" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
     <link href="../home/css/output.css" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
@@ -121,10 +122,10 @@ if (isset($_GET['channel'])) {
                   ?>
             </div>
         </div>
-        <!-- Logout Button -->
-        <div class="mt-auto">
-            <a href="../setting/userProfile.php" class="block text-light_surface_text hover:text-white p-2 rounded text-center">User Profile</a>
-            <a href="../chat/connection/logout.php" class="block bg-main_button text-light_surface_text hover:bg-secondary p-2 rounded text-center mt-4">Logout</a>
+        <!-- Profile and Logout Buttons -->
+        <div class="mt-auto flex flex-col items-center">
+            <a href="../setting/userProfile.php" class="block text-light_surface_text hover:text-white p-2 rounded text-center mb-4"><i class="fas fa-user"></i> User Profile</a>
+            <a href="../chat/connection/logout.php" class="block bg-main_button text-light_surface_text hover:bg-secondary p-2 rounded text-center"><i class="fas fa-sign-out-alt"></i> Logout</a>
         </div>
     </div>
 
@@ -178,7 +179,7 @@ if (isset($_GET['channel'])) {
                 <div class="text-secondary text-lg font-bold capitalize mb-4"><?= htmlspecialchars($user['group_name']) ?></div>
             <?php }
             ?>
-            <div class="right-sidebar space-y-2 group cursor-pointer" data-user-id="<?= htmlspecialchars($user['user_id']) ?>" data-user-mail="<?= htmlspecialchars($user['user_mail']) ?>" data-user-name="<?= htmlspecialchars($user['user_firstname'] . ' ' . $user['user_lastname']) ?>" data-user-picture="<?= htmlspecialchars($user['user_picture']) ?>">
+            <div class="right-sidebar space-y-2 user-info" data-user-id="<?= htmlspecialchars($user['user_id']) ?>" data-user-email="<?= htmlspecialchars($user['user_mail']) ?>" data-user-name="<?= htmlspecialchars($user['user_firstname'] . ' ' . $user['user_lastname']) ?>" data-user-picture="<?= htmlspecialchars($user['user_picture']) ?>">
                 <?= htmlspecialchars($user['user_lastname']) ?> <?= htmlspecialchars($user['user_firstname']) ?>
             </div>
             <?php
