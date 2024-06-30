@@ -1,3 +1,58 @@
+<?php
+include $_SERVER["DOCUMENT_ROOT"] . "/public/src/chat/connection/protect.php";
+require_once $_SERVER["DOCUMENT_ROOT"] . "/admin/include/connect.php";
+
+// Fetch messages if a channel is selected
+$messages = [];
+if (isset($_GET['channel'])) {
+    $sql = "SELECT * FROM message INNER JOIN users ON user_id = message_sender_id WHERE message_channel_id = :channel_id";
+    $stmt = $db->prepare($sql);
+    $stmt->execute([":channel_id" => htmlspecialchars($_GET['channel'])]);
+    $messages = $stmt->fetchAll();
+}
+
+// Fetch categories and channels the user belongs to
+$sql = "SELECT category_name, channel_name, channel_id
+        FROM category
+        INNER JOIN groupxcategory ON category_id = gxc_category_id
+        INNER JOIN userxgroup ON gxc_group_id = uxg_group_id
+        INNER JOIN users ON uxg_user_id = user_id
+        INNER JOIN channel ON category_id = channel_category_id
+        WHERE user_mail = :userEmail 
+        ORDER BY category_name ASC, channel_name ASC";
+$stmt = $db->prepare($sql);
+$stmt->execute([":userEmail" => $_SESSION['user_mail']]);
+$recordset = $stmt->fetchAll();
+
+$categories = [];
+foreach ($recordset as $row) {
+    $category = htmlspecialchars($row['category_name']);
+    $channel = htmlspecialchars($row['channel_name']);
+    $channelId = htmlspecialchars($row['channel_id']);
+    
+    if (!array_key_exists($category, $categories)) {
+        $categories[$category] = [];
+    }
+    
+    $categories[$category][$channelId] = $channel;
+}
+
+// Fetch users for right sidebar if a channel is selected
+$userList = [];
+if (isset($_GET['channel'])) {
+    $sql = "SELECT user_lastname, user_firstname, user_id, user_picture, user_mail, group_name
+            FROM users
+            INNER JOIN userxgroup ON user_id = uxg_user_id
+            INNER JOIN user_group ON uxg_group_id = group_id
+            INNER JOIN groupxcategory ON uxg_group_id = gxc_group_id
+            INNER JOIN category ON gxc_category_id = category_id
+            WHERE category_id = (SELECT channel_category_id FROM channel WHERE channel_id = :channel_id)
+            ORDER BY group_name;";
+    $stmt = $db->prepare($sql);
+    $stmt->execute([":channel_id" => htmlspecialchars($_GET['channel'])]);
+    $userList = $stmt->fetchAll();
+}
+?>
 <!DOCTYPE html>
 <html lang="fr">
 <head>
