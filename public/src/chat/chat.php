@@ -139,7 +139,7 @@ if (isset($_GET['channel'])) {
         <!-- Chat header -->
         <div class="p-4 border-b border-subtle_highlight flex justify-between items-center">
             <div class="text-light_surface_text text-lg font-bold"># <?= ucfirst(htmlspecialchars($recordset1['channel_name'])) ?> | <?= htmlspecialchars($recordset1['category_name']) ?></div>
-            <button id="toggleUsersButton" class="bg-secondary text-light_surface_text px-4 py-2 rounded"><i class="fas fa-users"></i></button>
+            <button id="toggleUsersButton" class="bg-secondary text-dark_surface_text px-4 py-2 rounded"><i class="fas fa-users"></i></button>
         </div>
 
         <!-- Messages area -->
