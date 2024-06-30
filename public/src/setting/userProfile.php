@@ -109,11 +109,18 @@ $maskedPassword = str_repeat('*', 12);
             <div class="mb-6">
                 <img src=<?= "../../../upload/lg_".$userPicture?> alt="Logo or Avatar" class="w-32 h-32 mx-auto rounded-full"> <!-- Placeholder for Logo or User Avatar -->
             </div>
-            <div class="flex flex-col">
-                <a href="#" data-target="profileSection" class="sidebar-link text-secondary hover:text-white p-2 rounded transition duration-300 ease-in-out">Mon Compte</a>
-                <a href="#" data-target="notificationsSettingsSection" class="sidebar-link text-secondary hover:text-white p-2 rounded transition duration-300 ease-in-out">Notifications</a>
-                <a href="#" data-target="whatsNewSection" class="sidebar-link text-secondary hover:text-white p-2 rounded transition duration-300 ease-in-out">Nouveautés</a>
-                <a href="#" class="logout-link text-secondary hover:text-white p-2 rounded transition duration-300 ease-in-out">Déconnexion</a>
+            <div class="flex flex-col justify-between h-4/5">
+            
+                <div class="flex flex-col">
+                    <a href="#" data-target="profileSection" class="sidebar-link text-secondary hover:text-white p-2 rounded transition duration-300 ease-in-out">Mon Compte</a>
+                    <a href="#" data-target="notificationsSettingsSection" class="sidebar-link text-secondary hover:text-white p-2 rounded transition duration-300 ease-in-out">Notifications</a>
+                    <a href="#" data-target="whatsNewSection" class="sidebar-link text-secondary hover:text-white p-2 rounded transition duration-300 ease-in-out">Nouveautés</a>
+                    <!-- <a href="#" class="logout-link text-secondary hover:text-white p-2 rounded transition duration-300 ease-in-out">Déconnexion</a> -->
+                </div>
+
+                <div>
+                    <a href="../chat/chat.php" class="text-white bg-secondary hover:text-black p-2 rounded transition duration-300 ease-in-out">Retour au chat</a>
+                </div>
             </div>
         </div>
 
@@ -134,9 +141,24 @@ $maskedPassword = str_repeat('*', 12);
             <div id="profileSection" class="content-section">
                 <div class="bg-white shadow rounded-lg p-6 flex">
                     <!-- Profile Content -->
-                    <div class="flex-none">
+                    <div class="flex-none" title="Editer Photo de Profil">
                         <!-- User image from the database -->
-                        <img src=<?= "../../../upload/md_".$userPicture?> alt="User Profile" class="w-24 h-24 rounded-full">
+                        <button id="editProfilePictureBtn" data-target="editProfilePictureModal" class="edit-btn"><img src=<?= "../../../upload/md_".$userPicture?> alt="User Profile" class="w-24 h-24 rounded-full"></button>
+                    </div>
+
+                    <!-- Edit Display Name Modal -->
+                    <div id="editProfilePictureModal" class="modal hidden <?= (isset($_GET['edit']) && $_GET['edit'] == 'profilePicture') ? '' : 'hidden'; ?> absolute inset-0 bg-gray-600 bg-opacity-50 flex justify-center items-center p-4">
+                        <div class="bg-white rounded-lg shadow-lg max-w-lg w-full p-8">
+                        <form action="processPicture.php" method="post" enctype="multipart/form-data">
+                            <div>
+                                <label for="file" class="block text-sm font-medium text-gray-700">Fichier :</label>
+                                <input type="file" name="file" id="file" accept="image/png, image/jpeg, image/jpg, image/gif" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200 focus:ring-opacity-50" required>
+                            </div>
+
+                            <div class="flex justify-end">
+                                <button type="submit" class="px-6 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">Update</button>
+                            </div>
+                        </div>
                     </div>
 
                     <!-- User Information Section -->

@@ -129,6 +129,7 @@ if (isset($_FILES['file']) && $_FILES['file']['name'] != "") {
     }
 
     unlink($uploadPath . $filename);
+    header("location: userProfile.php");
 }
 
 ?>
