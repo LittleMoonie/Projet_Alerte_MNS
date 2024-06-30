@@ -19,6 +19,14 @@ window.onload = () => {
 
     document.querySelector("#gifSearch").addEventListener("input", searchGifs);
 
+    let toggleUsersButton = document.querySelector("#toggleUsersButton");
+    toggleUsersButton.addEventListener("click", toggleUsersSidebar);
+
+    let userElements = document.querySelectorAll(".group[data-user-id]");
+    userElements.forEach(userElement => {
+        userElement.addEventListener("click", showUserInfo);
+    });
+
     setInterval(chargeMessages, 1000);
 }
 
@@ -231,5 +239,38 @@ function searchGifs(event) {
                     gifResults.appendChild(img);
                 });
             });
+    }
+}
+
+function toggleUsersSidebar() {
+    let rightSidebar = document.querySelector("#rightSidebar");
+    rightSidebar.classList.toggle("hidden");
+}
+
+function showUserInfo(event) {
+    let userId = event.currentTarget.getAttribute("data-user-id");
+    let userMail = event.currentTarget.getAttribute("data-user-mail");
+    let userPicture = event.currentTarget.getAttribute("data-user-picture");
+    let userName = event.currentTarget.querySelector(".text-light_surface_text").textContent;
+
+    let userInfoModal = document.createElement("div");
+    userInfoModal.classList.add("fixed", "inset-0", "bg-black", "bg-opacity-50", "flex", "justify-center", "items-center", "z-50");
+
+    userInfoModal.innerHTML = `
+        <div class="bg-white p-4 rounded shadow-lg text-center">
+            <img src="../../../upload/sm_${userPicture}" alt="Avatar" class="h-20 w-20 rounded-full mx-auto mb-4">
+            <div class="text-lg font-bold">${userName}</div>
+            <div class="text-sm">${userMail}</div>
+            <button class="mt-4 bg-red-500 text-white px-4 py-2 rounded" onclick="closeUserInfoModal()">Close</button>
+        </div>
+    `;
+
+    document.body.appendChild(userInfoModal);
+}
+
+function closeUserInfoModal() {
+    let userInfoModal = document.querySelector(".fixed.inset-0.bg-black");
+    if (userInfoModal) {
+        document.body.removeChild(userInfoModal);
     }
 }
