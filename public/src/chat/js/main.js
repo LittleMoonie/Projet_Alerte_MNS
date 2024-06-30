@@ -31,6 +31,10 @@ window.onload = () => {
         });
     });
 
+    document.querySelector("#closeProfileButton").addEventListener("click", () => {
+        document.querySelector("#userProfilePopup").classList.add("hidden");
+    });
+
     setInterval(chargeMessages, 1000);
 }
 
@@ -97,7 +101,7 @@ function chargeMessages() {
         }
     }
 
-    xmlhttp.open("GET", `ajax/chargeMessage.php?lastId=${lastId}&channelId=${document.querySelector("#channelInput").value}`);
+    xmlhttp.open("GET", `ajax/chargeMessages.php?lastId=${lastId}&channelId=${document.querySelector("#channelInput").value}`);
     xmlhttp.send();
 }
 
@@ -249,6 +253,8 @@ function fetchUserProfile(userId) {
     fetch(`getUserProfile.php?userId=${userId}`)
         .then(response => response.json())
         .then(data => {
-            alert(`Username: ${data.user_firstname} ${data.user_lastname}\nEmail: ${data.user_mail}`);
+            document.querySelector("#profileName").textContent = `${data.user_firstname} ${data.user_lastname}`;
+            document.querySelector("#profileEmail").textContent = data.user_mail;
+            document.querySelector("#userProfilePopup").classList.remove("hidden");
         });
 }

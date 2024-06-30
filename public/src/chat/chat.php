@@ -40,7 +40,7 @@ foreach ($recordset as $row) {
 // Fetch users for right sidebar if a channel is selected
 $userList = [];
 if (isset($_GET['channel'])) {
-    $sql = "SELECT user_lastname, user_firstname, user_id, user_picture, user_mail, group_name
+    $sql = "SELECT user_lastname, user_firstname, user_id, user_picture, group_name
             FROM users
             INNER JOIN userxgroup ON user_id = uxg_user_id
             INNER JOIN user_group ON uxg_group_id = group_id
@@ -49,7 +49,7 @@ if (isset($_GET['channel'])) {
             WHERE category_id = (SELECT channel_category_id FROM channel WHERE channel_id = :channel_id)
             ORDER BY group_name;";
     $stmt = $db->prepare($sql);
-    $stmt->execute([":channel_id" => $_GET['channel']]);
+    $stmt->execute([":channel_id" => htmlspecialchars($_GET['channel'])]);
     $userList = $stmt->fetchAll();
 }
 ?>
@@ -116,16 +116,16 @@ if (isset($_GET['channel'])) {
                     foreach ($categories as $category => $channels) {
                         echo "<div class='text-secondary text-lg font-bold block'>$category</div>";
                         foreach ($channels as $channelId => $channel) {
-                            echo "<a href='?channel=$channelId' class='text-light_surface_text hover:text-white block ms-4'>$channel</a>";
+                            echo "<a href='?channel=$channelId' class='text-dark_surface_text hover:text-white block ms-4'>$channel</a>";
                         }
                     }
                   ?>
             </div>
         </div>
-        <div class="space-y-2">
-            <a href="../setting/userProfile.php" class="bg-secondary text-light_surface_text px-4 py-2 rounded block text-center"><i class="fas fa-user"></i> Profile</a>
-            <a href="../chat/connection/logout.php" class="bg-main_button text-light_surface_text px-4 py-2 rounded block text-center">Logout</a>
-        </div>
+        <!-- User Profile Button -->
+        <a href="../setting/userProfile.php" class="bg-secondary text-dark_surface_text px-4 py-2 rounded mt-auto mb-4">Profil Utilisateur</a>
+        <!-- Logout Button -->
+        <a href="../chat/connection/logout.php" class="bg-main_button text-dark_surface_text px-4 py-2 rounded mt-auto mb-4 text-center">Déconnexion</a>
     </div>
 
     <?php if (isset($_GET['channel'])) { 
@@ -136,37 +136,36 @@ if (isset($_GET['channel'])) {
     ?>
     <!-- Chat section -->
     <div class="flex-1 flex flex-col bg-background_color">
-        <!-- Chat header -->
+      <!-- Chat header -->
         <div class="p-4 border-b border-subtle_highlight flex justify-between items-center">
             <div class="text-light_surface_text text-lg font-bold"># <?= ucfirst(htmlspecialchars($recordset1['channel_name'])) ?> | <?= htmlspecialchars($recordset1['category_name']) ?></div>
-            <button id="toggleUsersButton" class="bg-secondary text-light_surface_text px-4 py-2 rounded"><i class="fas fa-users"></i></button>
+            <div class="space-x-2 flex items-center">
+                <button id="toggleUsersButton" class="bg-secondary text-dark_surface_text px-4 py-2 rounded ml-2">Users</button>
+                <button id="uploadButton" class="bg-main_button text-dark_surface_text px-4 py-2 rounded ml-2"><i class="fas fa-upload"></i></button>
+                <button id="gifButton" class="bg-main_button text-dark_surface_text px-4 py-2 rounded ml-2"><i class="fas fa-image"></i></button>
+            </div>
         </div>
 
         <!-- Messages area -->
-        <div id="messagesArea" class="flex-1 overflow-y-auto p-4 space-y-4" style="max-height: calc(100vh - 4rem);"></div>
+        <div id="messagesArea" class="flex-1 overflow-y-auto p-4 space-y-4" style="max-height: calc(100vh - 4rem);">
+        </div>
 
         <!-- Message input -->
         <div class="border-t border-subtle_highlight p-4 flex items-center">
-            <input type="hidden" name="channel" id="channelInput" value="<?= htmlspecialchars($_GET['channel']) ?>">
-            <input type="hidden" name="user" id="userInput" value="<?= htmlspecialchars($_SESSION['userId']) ?>">
-            <textarea id="messageInput" placeholder="Message..." maxlength="2000" 
-                class="flex-1 p-2 rounded border border-subtle_highlight mr-2 resize-none overflow-hidden 
-                focus:outline-none focus:ring focus:border-blue-300 transition-all duration-300 ease-in-out"></textarea>
-            <div id="userList" class="absolute z-10 w-full bg-white border rounded shadow-lg hidden"></div>
-            <button id="sendButton" class="bg-main_button text-light_surface_text px-4 py-2 rounded"><i class="fas fa-paper-plane"></i></button>
-            <button id="uploadButton" class="bg-main_button text-light_surface_text px-4 py-2 rounded ml-2"><i class="fas fa-upload"></i></button>
-            <input type="file" id="fileInput" class="hidden" />
-            <button id="gifButton" class="bg-main_button text-light_surface_text px-4 py-2 rounded ml-2"><i class="fas fa-gift"></i></button>
-            <div id="gifContainer" class="hidden">
-                <input type="text" id="gifSearch" placeholder="Search GIFs" class="p-2 rounded border border-subtle_highlight mr-2" />
-                <div id="gifResults" class="flex flex-wrap space-x-2 mt-2"></div>
-            </div>
+          <input type="hidden" name="channel" id="channelInput" value="<?= htmlspecialchars($_GET['channel']) ?>">
+          <input type="hidden" name="user" id="userInput" value="<?= htmlspecialchars($_SESSION['userId']) ?>">
+          <textarea id="messageInput" placeholder="Message..." maxlength="2000" 
+              class="flex-1 p-2 rounded border border-subtle_highlight mr-2 resize-none overflow-hidden 
+              focus:outline-none focus:ring focus:border-blue-300 transition-all duration-300 ease-in-out"></textarea>
+          <div id="userList" class="absolute z-10 w-full bg-white border rounded shadow-lg hidden"></div>
+          <button id="sendButton" class="bg-main_button text-dark_surface_text px-4 py-2 rounded">Send</button>
+          <input type="file" id="fileInput" class="hidden" />
         </div>
     </div>
 
     <!-- Right sidebar -->
     <?php
-      $sql = "SELECT user_lastname, user_firstname, user_id, user_mail, user_picture, group_name
+      $sql = "SELECT user_lastname, user_firstname, user_id, user_picture, group_name
               FROM users
               INNER JOIN userxgroup ON user_id = uxg_user_id
               INNER JOIN user_group ON uxg_group_id = group_id
@@ -181,25 +180,32 @@ if (isset($_GET['channel'])) {
 
       $groupname = "";
     ?>
-    <div id="rightSidebar" class="w-1/5 bg-primary text-dark_surface_text p-4 space-y-4 hidden">
+      <div id="rightSidebar" class="w-1/5 bg-primary text-dark_surface_text p-4 space-y-4 hidden">
         <?php 
         foreach($recordset as $row) {
           if ($groupname != $row['group_name']) { ?>
             <div class="text-secondary text-lg font-bold capitalize mb-4"><?= htmlspecialchars($row['group_name']) ?></div>
           <?php } ?>
-          <div class="right-sidebar space-y-2 hover:bg-secondary p-2 rounded cursor-pointer" data-user-id="<?= htmlspecialchars($row['user_id']) ?>">
-              <img src="<?= '../../../upload/sm_'.htmlspecialchars($row['user_picture']) ?>" alt="Avatar" class="h-10 w-10 rounded-full inline-block mr-2">
+          <div class="right-sidebar space-y-2" data-user-id="<?= htmlspecialchars($row['user_id']) ?>">
               <?= htmlspecialchars($row['user_lastname']) ?> <?= htmlspecialchars($row['user_firstname']) ?>
           </div>
           <?php
           $groupname = $row['group_name'];
         } ?>
+      </div>
+      <!-- User Profile Popup -->
+      <div id="userProfilePopup" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden">
+          <div class="bg-white p-4 rounded shadow-lg w-1/3">
+              <h2 class="text-xl font-bold mb-4">Profile</h2>
+              <p><strong>Name:</strong> <span id="profileName"></span></p>
+              <p><strong>Email:</strong> <span id="profileEmail"></span></p>
+              <button id="closeProfileButton" class="bg-main_button text-light_surface_text px-4 py-2 rounded mt-4">Close</button>
+          </div>
+      </div>
     </div>
     <?php } ?>
-
-    <!-- External JS file -->
-    <script src="js/main.js"></script>
 </body>
 <script src="https://cdn.jsdelivr.net/npm/emoji-picker-element@1.5.3/build/emoji-picker-element.js"></script>
+<script src="js/main.js"></script>
 <script src="js/index.js"></script>
-</html>
+</html>  
