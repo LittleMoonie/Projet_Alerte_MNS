@@ -61,7 +61,6 @@ if (isset($_GET['channel'])) {
     <title>Metz Numeric School</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=MuseoModerno:wght@400;700&family=Lexend:wght@400;700&family=Alata&display=swap" rel="stylesheet">
-    <link href="css/style.css" rel="stylesheet">
     <link href="../home/css/output.css" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
@@ -185,8 +184,7 @@ if (isset($_GET['channel'])) {
     <?php } ?>
 
     <!-- External JS file -->
-    <script src="js/main.js"></script>
+    <script src="js/index.js"></script>
 </body>
 <script src="https://cdn.jsdelivr.net/npm/emoji-picker-element@1.5.3/build/emoji-picker-element.js"></script>
-<script src="js/index.js"></script>
 </html>  
