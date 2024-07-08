@@ -1,8 +1,5 @@
 {
-  "devDependencies": {
-    "tailwindcss": "^3.4.1"
-  },
   "dependencies": {
-    "mysql": "^2.18.1"
+    "emoji-picker-element": "^1.21.3"
   }
 }

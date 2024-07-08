@@ -196,19 +196,23 @@
     <div class="flex flex-col md:flex-row justify-between items-center">
         <div class="mb-6 md:mb-0">
             <a href="https://www.metz-numeric-school.fr/fr" class="text-2xl font-titles font-bold text-light_surface_text">MNS Alerte</a>
+            <a href="https://www.metz-numeric-school.fr/fr" class="text-2xl font-titles font-bold text-light_surface_text">MNS Alerte</a>
         </div>
         <div class="grid grid-cols-4 gap-8">
             <div class="text-center">
                 <a href="https://www.metz-numeric-school.fr/fr" class="underline underline-offset-4">MNS Accueil</a>
+                <a href="https://www.metz-numeric-school.fr/fr" class="underline underline-offset-4">MNS Accueil</a>
             </div>
             <div class="text-center">
+                <a hef="https://www.metz-numeric-school.fr/fr/mentions-legales" class="underline underline-offset-4">Mentions légales</a>
                 <a href="https://www.metz-numeric-school.fr/fr/mentions-legales" class="underline underline-offset-4">Mentions légales</a>
             </div>
             <div class="text-center">
                 <a href="https://www.metz-numeric-school.fr/fr/politique-de-donnees" class="underline underline-offset-4">Politiques de protections des données</a>
+                <a href="https://www.metz-numeric-school.fr/fr/politique-de-donnees" class="underline underline-offset-4">Politiques de protections des données</a>
             </div>
             <div class="text-center">
-                <h5 class="underline underline-offset-4">Contacter</h5>
+                <a href="https://www.metz-numeric-school.fr/fr/contact" class="underline underline-offset-4">Contacter</a>
             </div>
         </div>
     </div>
